@@ -4,7 +4,7 @@ import Category from '@/model/category';
 import { colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { View, Text, Input, Separator } from 'tamagui';
-import GradientButton from '@/components/GradientButton';
+import SaveButton from '@/components/SaveButton';
 
 const CreateCategory = () => {
   const database = useDatabase();
@@ -27,7 +27,11 @@ const CreateCategory = () => {
     endAnimation();
   };
   return (
-    <View>
+    <View
+      backgroundColor='rgba(141, 162, 238, 0.3)'
+      padding={20}
+      borderRadius={10}
+    >
       <Text color='white' paddingBottom={10}>
         Dodaj kategorię
       </Text>
@@ -45,14 +49,13 @@ const CreateCategory = () => {
           paddingLeft={3}
         />
         <View width='18%'>
-          <GradientButton
+          <SaveButton
             onPress={createNewCategory}
             icon={<MaterialIcons name='add' size={30} color='white' />}
             disabled={!categoryName}
           />
         </View>
       </View>
-      <Separator marginVertical={30} borderColor={colors[1][1]} />
     </View>
   );
 };

@@ -6,14 +6,12 @@ import Animated, {
   Easing,
   runOnJS,
   withSpring,
-  withSequence,
 } from 'react-native-reanimated';
 import { colors } from '@/constants/colors';
-import { LinearGradient } from '@tamagui/linear-gradient';
 import { ViewProps, View, Spinner } from 'tamagui';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 
-interface ReusableGradientButtonProps {
+interface SaveButtonButtonProps {
   onPress: (animation: () => void, endAnimation: () => void) => Promise<void>;
   icon: ReactNode;
   disabled?: boolean;
@@ -21,11 +19,12 @@ interface ReusableGradientButtonProps {
 
 const AnimatedView = Animated.createAnimatedComponent(
   React.forwardRef<typeof View, ViewProps>((props, ref) => {
+    // @ts-ignore -- ref error
     return <View ref={ref} {...props} />;
   })
 );
 
-const GradientButton: React.FC<ReusableGradientButtonProps> = ({
+const SaveButton: React.FC<SaveButtonButtonProps> = ({
   onPress,
   icon,
   disabled,
@@ -42,13 +41,6 @@ const GradientButton: React.FC<ReusableGradientButtonProps> = ({
   };
 
   const stopLoading = () => {
-    progress.value = withSequence(
-      withTiming(1, { duration: 300, easing: Easing.linear }),
-      withTiming(0, {
-        duration: 300,
-        easing: Easing.linear,
-      })
-    );
     setIsLoading(false);
   };
 
@@ -69,10 +61,6 @@ const GradientButton: React.FC<ReusableGradientButtonProps> = ({
       isActive.value = false;
     });
 
-  const animatedStyle = useAnimatedStyle(() => ({
-    width: `${progress.value * 100}%`,
-  }));
-
   const rStyle = useAnimatedStyle(() => {
     return {
       opacity: withTiming(isActive.value ? 0.5 : 1, {
@@ -80,7 +68,23 @@ const GradientButton: React.FC<ReusableGradientButtonProps> = ({
       }),
       transform: [
         {
+          rotate: withSpring(isActive.value ? `${-(Math.PI / 60)}rad` : '0rad'),
+        },
+        {
           scale: withSpring(isActive.value ? 0.9 : 1),
+        },
+      ],
+    };
+  });
+
+  const rIconStyle = useAnimatedStyle(() => {
+    return {
+      opacity: withTiming(isActive.value ? 0.5 : 1, {
+        duration: 100,
+      }),
+      transform: [
+        {
+          rotate: withSpring(isActive.value ? `${Math.PI / 4}rad` : '0rad'),
         },
       ],
     };
@@ -97,34 +101,14 @@ const GradientButton: React.FC<ReusableGradientButtonProps> = ({
         style={rStyle}
         height={36}
       >
-        <AnimatedView
-          width='100%'
-          height='100%'
-          bg='#ddd'
-          overflow='hidden'
-          borderRadius={10}
-          position='absolute'
-          left={0}
-          top={0}
-          zIndex={0}
-          style={animatedStyle}
-        >
-          <LinearGradient
-            colors={[colors[1][1], colors[1][0]]}
-            start={{ x: 1, y: 1 }}
-            end={{ x: 0, y: 0 }}
-            width='100%'
-            height='100%'
-            alignItems='center'
-            justifyContent='center'
-            borderRadius={10}
-          />
-        </AnimatedView>
-
-        {!!isLoading ? <Spinner size='small' color='white' /> : icon}
+        {!!isLoading ? (
+          <Spinner size='small' color='white' />
+        ) : (
+          <Animated.View style={rIconStyle}>{icon}</Animated.View>
+        )}
       </AnimatedView>
     </GestureDetector>
   );
 };
 
-export default GradientButton;
+export default SaveButton;

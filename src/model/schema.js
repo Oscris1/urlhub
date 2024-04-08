@@ -13,7 +13,12 @@ export default appSchema({
         { name: 'name', type: 'string' },
         { name: 'url', type: 'string' },
         { name: 'created_at', type: 'number' },
-        { name: 'category_id', type: 'string', isIndexed: true },
+        {
+          name: 'category_id',
+          type: 'string',
+          isIndexed: true,
+          isOptional: true,
+        },
       ],
     }),
   ],

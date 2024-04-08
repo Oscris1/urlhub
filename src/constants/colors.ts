@@ -30,4 +30,4 @@ export const colors = [
 // background: linear-gradient(220.55deg, #AFCCCB 0%, #616566 100%);
 // background: linear-gradient(220.55deg, #5D85A6 0%, #0E2C5E 100%);
 
-export const colorsBlue = [['#5D85A6', '#0E2C5E']];
+export const colorsBlue = [['#1e2932', '#3a4d57']];

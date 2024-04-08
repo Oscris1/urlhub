@@ -1,11 +1,12 @@
 import React from 'react';
-import { Tabs } from 'expo-router';
+import { Tabs, router } from 'expo-router';
 import Ionicons from '@expo/vector-icons/build/Ionicons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Alert } from 'react-native';
 import { useDatabase } from '@nozbe/watermelondb/hooks';
 import * as Clipboard from 'expo-clipboard';
 import { Link as LinkModel } from '../../src/model/link';
+import { useSegments } from 'expo-router';
 
 export default function TabLayout() {
   const shortenLink = (link: string, maxLength = 60) => {
@@ -42,17 +43,19 @@ export default function TabLayout() {
     });
   };
 
+  const segments = useSegments();
+
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: 'black',
+        tabBarActiveTintColor: 'white',
         headerShown: false,
-        tabBarStyle: { backgroundColor: 'white' },
+        tabBarStyle: { backgroundColor: 'black' },
         tabBarShowLabel: false,
       }}
     >
       <Tabs.Screen
-        name='index'
+        name='(links)'
         options={{
           title: 'Linki',
           tabBarIcon: ({ color, focused }) => (
@@ -67,6 +70,16 @@ export default function TabLayout() {
 
       <Tabs.Screen
         name='add'
+        listeners={() => ({
+          tabPress: (e) => {
+            // Zapobieganie standardowej akcji nawigacji
+            e.preventDefault();
+            // Wywołanie funkcji dodającej element do bazy danych
+            if (segments[2] !== 'createEdit') {
+              router.push('/createEdit');
+            }
+          },
+        })}
         options={{
           title: 'Dodaj',
           tabBarIcon: ({ color, focused }) => (
@@ -90,13 +103,13 @@ export default function TabLayout() {
         })}
         options={{
           tabBarBadge: '+',
-          tabBarBadgeStyle: { backgroundColor: '#5D85A6' },
+          tabBarBadgeStyle: { backgroundColor: '#8DA2EE' },
           title: '',
           tabBarIcon: () => (
             <MaterialCommunityIcons
               name='lightning-bolt'
               size={30}
-              color='#5D85A6'
+              color='#8DA2EE'
             />
           ),
         }}

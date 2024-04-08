@@ -1,5 +1,5 @@
 import { TextInput, TouchableOpacity } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDatabase } from '@nozbe/watermelondb/hooks';
 import Category from '@/model/category';
 import { colors } from '@/constants/colors';
@@ -7,16 +7,34 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import { Link } from '@/model/link';
 import * as Clipboard from 'expo-clipboard';
-import { View, Text, Separator } from 'tamagui';
+import { View, Text } from 'tamagui';
 
-import GradientButton from '@/components/GradientButton';
-import { SelectCategoryEnchanted } from '@/components/SelectCategory';
+import SaveButton from '@/components/SaveButton';
+import { SelectCategory } from '@/components/SelectCategory';
+import { router, useLocalSearchParams } from 'expo-router';
 
 const CreateLink = () => {
   const database = useDatabase();
   const [linkName, setLinkName] = useState<string>('');
   const [url, setUrl] = useState<string>('');
-  const [selectedCategory, setSelectedCategory] = useState<string>('');
+  const [selectedCategory, setSelectedCategory] = useState<string | undefined>(
+    undefined
+  );
+  const { id }: { id: string } = useLocalSearchParams(); // string | string[] by default
+
+  const prepareEdit = async () => {
+    if (id) {
+      const link = await database.get<Link>('links').find(id);
+      setUrl(link.url);
+      setLinkName(link.name);
+      setSelectedCategory(link.category.id);
+    }
+  };
+
+  useEffect(() => {
+    console.log('id z local', id);
+    prepareEdit();
+  }, [id]);
 
   const createNewLink = async (
     animation: () => void,
@@ -38,11 +56,21 @@ const CreateLink = () => {
           setCategory = (link: Link) => link.category.set(category);
         }
 
-        await database.get<Link>('links').create((link) => {
-          link.name = linkName;
-          link.url = url;
-          setCategory?.(link);
-        });
+        if (id) {
+          const link = await database.get<Link>('links').find(id);
+          await link.update(() => {
+            link.name = linkName;
+            link.url = url;
+            setCategory?.(link);
+          });
+          router.back();
+        } else {
+          await database.get<Link>('links').create((link) => {
+            link.name = linkName;
+            link.url = url;
+            setCategory?.(link);
+          });
+        }
       });
 
       resetFormAndState();
@@ -56,17 +84,23 @@ const CreateLink = () => {
   const resetFormAndState = () => {
     setLinkName('');
     setUrl('');
-    setSelectedCategory('');
+    setSelectedCategory(undefined);
   };
 
   const fetchCopiedText = async () => {
     const text = await Clipboard.getStringAsync();
     setUrl(text);
   };
+
   return (
-    <View>
-      <Text color='white' paddingBottom={20}>
-        Dodaj link
+    <View
+      backgroundColor='rgba(141, 162, 238, 0.3)'
+      padding={20}
+      borderRadius={10}
+      height={250}
+    >
+      <Text color='white' paddingBottom={10}>
+        {id ? 'Edytuj' : 'Dodaj'} link
       </Text>
       <View
         flexDirection='row'
@@ -119,20 +153,20 @@ const CreateLink = () => {
         />
       </View>
 
-      <SelectCategoryEnchanted
+      <SelectCategory
         add
-        database={database}
         selectedCategory={selectedCategory}
         setSelectedCategory={setSelectedCategory}
+        size='$3'
+        borderRadius={6}
       />
-      <View marginTop={10}>
-        <GradientButton
+      <View marginTop={10} paddingBottom={30}>
+        <SaveButton
           icon={<MaterialIcons name='add' size={30} color='white' />}
           onPress={createNewLink}
           disabled={!url}
         />
       </View>
-      <Separator marginVertical={30} borderColor={colors[1][1]} />
     </View>
   );
 };

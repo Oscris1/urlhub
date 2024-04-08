@@ -1,7 +1,7 @@
 import { Link } from 'expo-router';
 import { FlatList, Pressable } from 'react-native';
-import Category from '../model/category';
-import { colors } from '../constants/colors';
+import Category from '../src/model/category';
+import { colors } from '../src/constants/colors';
 import { withObservables } from '@nozbe/watermelondb/react';
 import { Database } from '@nozbe/watermelondb';
 import { Text } from 'tamagui';
@@ -23,7 +23,6 @@ const ObservableCategoriesList: React.FC<ObservableProps> = ({
       data={categories}
       keyExtractor={(item) => item.id.toString()}
       renderItem={({ item, index }) => {
-        console.log(item.id);
         return (
           <Link asChild href={`/${item.id}`}>
             <Pressable
