@@ -4,6 +4,7 @@ import { Select, View } from 'tamagui';
 import { withObservables } from '@nozbe/watermelondb/react';
 import { Database } from '@nozbe/watermelondb';
 import { Entypo } from '@expo/vector-icons';
+import { useTranslation } from 'react-i18next';
 
 interface CategoryListProps {
   categories: Category[];
@@ -22,13 +23,14 @@ const CategoryList: React.FC<CategoryListProps> = ({
   add,
   setData,
 }) => {
+  const { t } = useTranslation();
   let data: { id: string; name: string }[];
   if (add) {
     data = categories;
   } else {
     data = [
-      { id: 'all', name: 'Wszystkie' },
-      { id: 'none', name: 'Nieprzypisane' },
+      { id: 'all', name: t('all') },
+      { id: 'none', name: t('unassigned') },
       ...categories,
     ];
   }

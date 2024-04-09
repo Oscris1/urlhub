@@ -8,6 +8,7 @@ import { View, Text, YStack } from 'tamagui';
 import { router } from 'expo-router';
 import Category from '@/model/category';
 import OptionButton from './OptionButton';
+import { useTranslation } from 'react-i18next';
 
 const addHttps = (url: string) => {
   // Sprawdza, czy URL zaczyna się od "http://" lub "https://", jeśli nie - dodaje "https://"
@@ -30,17 +31,17 @@ const openLink = async (url: string) => {
   );
 };
 
-const shareLink = async (url: string) => {
+const shareLink = async (url: string, title: string, message: string) => {
   let newUrl = addHttps(url);
   try {
     await Share.share(
       {
-        title: 'Udostępnij link', // change later
-        message: `Sprawdź tę stronę: ${newUrl}`,
+        title: title, // change later
+        message: `${message} ${newUrl}`,
         url: newUrl,
       },
       {
-        dialogTitle: 'Udostępnij link',
+        dialogTitle: title,
       }
     );
   } catch (error) {
@@ -55,12 +56,12 @@ interface LinkItemProps {
 }
 
 const LinkItem: React.FC<LinkItemProps> = ({ link, index, category }) => {
+  const { t } = useTranslation();
   return (
     <View
       flexDirection='row'
       height={60}
       marginBottom={15}
-      // backgroundColor='#20262E'
       backgroundColor='rgba(141, 162, 238, 0.2)'
       justifyContent='center'
       alignItems='center'
@@ -78,7 +79,7 @@ const LinkItem: React.FC<LinkItemProps> = ({ link, index, category }) => {
             fontSize={10}
             numberOfLines={1}
           >
-            {!!category?.name ? category?.name : 'Brak kategorii'}
+            {!!category?.name ? category?.name : t('no_category')}
           </Text>
         </YStack>
       </Pressable>
@@ -89,7 +90,9 @@ const LinkItem: React.FC<LinkItemProps> = ({ link, index, category }) => {
       />
       <OptionButton
         iconComponent={<Feather name='share-2' size={20} color='#20262E' />}
-        onPress={() => shareLink(link.url)}
+        onPress={() =>
+          shareLink(link.url, t('share_link'), t('check_this_page'))
+        }
       />
       <OptionButton
         iconComponent={<Entypo name='edit' size={20} color='#20262E' />}

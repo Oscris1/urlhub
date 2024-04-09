@@ -5,16 +5,17 @@ import CreateLink from '@/components/createEditDelete/CreateLink';
 import { Stack, useLocalSearchParams } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import SwapToRemove from '@/components/createEditDelete/SwapToRemove';
+import { useTranslation } from 'react-i18next';
 
 const Add = () => {
   const { id }: { id: string } = useLocalSearchParams(); // string | string[] by default
-
+  const { t } = useTranslation();
   return (
     <>
       <Stack.Screen
         options={{
           // https://reactnavigation.org/docs/headers#setting-the-header-title
-          title: id ? 'Edytuj' : 'Dodaj',
+          title: id ? t('edit') : t('add'),
           // https://reactnavigation.org/docs/headers#adjusting-header-styles
           headerStyle: { backgroundColor: 'black' },
           headerTintColor: '#fff',

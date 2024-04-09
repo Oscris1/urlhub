@@ -17,6 +17,7 @@ import { useFonts } from 'expo-font';
 import { useEffect } from 'react';
 import Toast from 'react-native-toast-message';
 import { toastConfig } from 'toast.config';
+import { initializeI18n } from '@/translations';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -36,6 +37,10 @@ export default function RootLayout() {
     Inter: require('@tamagui/font-inter/otf/Inter-Medium.otf'),
     InterBold: require('@tamagui/font-inter/otf/Inter-Bold.otf'),
   });
+
+  useEffect(() => {
+    initializeI18n();
+  }, []);
 
   useEffect(() => {
     if (interLoaded || interError) {

@@ -8,8 +8,10 @@ import * as Clipboard from 'expo-clipboard';
 import { Link as LinkModel } from '../../src/model/link';
 import { useSegments } from 'expo-router';
 import Toast from 'react-native-toast-message';
+import { useTranslation } from 'react-i18next';
 
 export default function TabLayout() {
+  const { t } = useTranslation();
   const shortenLink = (link: string, maxLength = 60) => {
     if (link.length > maxLength) {
       return link.substring(0, maxLength - 3) + '...';
@@ -23,21 +25,21 @@ export default function TabLayout() {
     if (!text) {
       Toast.show({
         type: 'error',
-        text1: 'Brak url w schowku',
+        text1: t('no_url_in_clipboard'),
         visibilityTime: 2000,
       });
       return;
     }
     Alert.alert(
-      'Szybkie dodawanie linka', // Tytuł
-      `Czy chcesz zapisać podaną wartość jako link?\n\n${shortenLink(text)}`, // Wiadomość
+      t('quick_add_link'), // Tytuł
+      `${t('confirm_save_link')}\n\n${shortenLink(text)}`, // Wiadomość
       [
         {
-          text: 'Nie',
+          text: t('no'),
           onPress: () => {},
           style: 'cancel',
         },
-        { text: 'Tak', onPress: () => saveToDatabase(text) },
+        { text: t('yes'), onPress: () => saveToDatabase(text) },
       ],
       { cancelable: true }
     );
@@ -89,7 +91,7 @@ export default function TabLayout() {
           },
         })}
         options={{
-          title: 'Dodaj',
+          title: t('add'),
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
               name={`add-${focused ? 'sharp' : 'outline'}`}

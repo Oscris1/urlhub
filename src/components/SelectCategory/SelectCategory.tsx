@@ -5,6 +5,7 @@ import type { SelectProps, SizeTokens } from 'tamagui';
 import { useDatabase } from '@nozbe/watermelondb/react';
 import { Entypo } from '@expo/vector-icons';
 import { EnchancetCategoryList } from './CategoryList';
+import { useTranslation } from 'react-i18next';
 
 interface CategoriesListProps {
   selectedCategory?: string;
@@ -22,6 +23,7 @@ export const SelectCategory = ({
   borderRadius,
   ...props
 }: SelectProps & CategoriesListProps) => {
+  const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const database = useDatabase();
   const [data, setData] = useState<{ id: string; name: string }[]>([]);
@@ -40,7 +42,7 @@ export const SelectCategory = ({
     <Select
       value={selectedCategory}
       onValueChange={setSelectedCategory}
-      defaultValue='Wybierz'
+      defaultValue={t('select')}
       disablePreventBodyScroll
       open={isOpen}
       onOpenChange={(item) => {
@@ -64,11 +66,11 @@ export const SelectCategory = ({
           )
         }
       >
-        <Select.Value color='#20262E' placeholder='Wybierz kategorie'>
+        <Select.Value color='#20262E' placeholder={t('select_category')}>
           {!!categoryName
             ? categoryName
             : !selectedCategory
-            ? 'Wybierz kategorie'
+            ? t('select_category')
             : ''}
         </Select.Value>
       </Select.Trigger>

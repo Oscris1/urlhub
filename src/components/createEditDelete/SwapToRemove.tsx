@@ -13,16 +13,20 @@ import { useDatabase } from '@nozbe/watermelondb/react';
 import { router } from 'expo-router';
 import { StyleSheet } from 'react-native';
 import Toast from 'react-native-toast-message';
+import { useTranslation } from 'react-i18next';
 
 interface SwapToRemoveProps {
   id: string;
 }
 
 const SwapToRemove: React.FC<SwapToRemoveProps> = ({ id }) => {
+  const { t } = useTranslation();
   const database = useDatabase();
   const scrollX = useSharedValue(0);
   const release = useSharedValue(false);
-  const text = useSharedValue('> Przesuń, aby usunąć');
+  const slide = t('slide_to_delete');
+  const drop = t('drop_to_delete');
+  const text = useSharedValue(slide);
 
   const handleRemove = async () => {
     await database.write(async () => {
@@ -30,8 +34,7 @@ const SwapToRemove: React.FC<SwapToRemoveProps> = ({ id }) => {
       await link.destroyPermanently();
       Toast.show({
         type: 'success',
-        text1: 'Usunięto',
-        text2: `Link został ${!!id ? 'zaktualizowany' : 'dodany'}`,
+        text1: t('deleted'),
         visibilityTime: 1500,
       });
       router.back();
@@ -46,11 +49,11 @@ const SwapToRemove: React.FC<SwapToRemoveProps> = ({ id }) => {
     .onChange((event) => {
       scrollX.value = clamp(scrollX.value + event.changeX, -150, 150);
       if (scrollX.value >= 130) {
-        text.value = 'Puść, aby usunąć';
+        text.value = drop;
 
         release.value = true;
       } else if (scrollX.value < 130 && !!release.value) {
-        text.value = '> Przesuń, aby usunąć';
+        text.value = slide;
         release.value = false;
       } else {
       }
@@ -62,7 +65,7 @@ const SwapToRemove: React.FC<SwapToRemoveProps> = ({ id }) => {
       } else {
         scrollX.value = withSpring(0);
         release.value = false;
-        text.value = '> Przesuń, aby usunąć';
+        text.value = slide;
       }
     });
 
@@ -75,7 +78,6 @@ const SwapToRemove: React.FC<SwapToRemoveProps> = ({ id }) => {
   return (
     <View alignItems='center' marginBottom={20}>
       <View
-        // bg='#F2613F'
         bg='#F28585'
         width='90%'
         height={40}

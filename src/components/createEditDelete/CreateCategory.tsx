@@ -3,12 +3,14 @@ import { useDatabase } from '@nozbe/watermelondb/hooks';
 import Category from '@/model/category';
 import { colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
-import { View, Text, Input, Separator } from 'tamagui';
+import { View, Text, Input } from 'tamagui';
 import SaveButton from '@/components/SaveButton';
+import { useTranslation } from 'react-i18next';
 
 const CreateCategory = () => {
   const database = useDatabase();
   const [categoryName, setCategoryName] = useState<string>('');
+  const { t } = useTranslation();
 
   const createNewCategory = async (
     animation: () => void,
@@ -33,12 +35,12 @@ const CreateCategory = () => {
       borderRadius={10}
     >
       <Text color='white' paddingBottom={10}>
-        Dodaj kategorię
+        {t('add_category')}
       </Text>
       <View flexDirection='row' justifyContent='space-between'>
         <Input
           size='$3'
-          placeholder='Nazwa kategorii'
+          placeholder={t('category_name')}
           onChangeText={setCategoryName}
           value={categoryName}
           backgroundColor='white'

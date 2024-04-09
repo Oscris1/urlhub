@@ -13,6 +13,7 @@ import SaveButton from '@/components/SaveButton';
 import { SelectCategory } from '@/components/SelectCategory';
 import { router, useLocalSearchParams } from 'expo-router';
 import Toast from 'react-native-toast-message';
+import { useTranslation } from 'react-i18next';
 
 const CreateLink = () => {
   const database = useDatabase();
@@ -22,6 +23,7 @@ const CreateLink = () => {
     undefined
   );
   const { id }: { id: string } = useLocalSearchParams(); // string | string[] by default
+  const { t } = useTranslation();
 
   const prepareEdit = async () => {
     if (id) {
@@ -75,8 +77,8 @@ const CreateLink = () => {
       });
       Toast.show({
         type: 'success',
-        text1: 'Zapisano',
-        text2: `Link został ${!!id ? 'zaktualizowany' : 'dodany'}`,
+        text1: t('saved'),
+        text2: `${t('link')} ${!!id ? t('updated') : t('added')}`,
         visibilityTime: 1500,
       });
       resetFormAndState();
@@ -106,7 +108,7 @@ const CreateLink = () => {
       height={250}
     >
       <Text color='white' paddingBottom={10}>
-        {id ? 'Edytuj' : 'Dodaj'} link
+        {id ? t('edit') : t('add')} link
       </Text>
       <View
         flexDirection='row'
@@ -114,7 +116,7 @@ const CreateLink = () => {
         marginBottom={10}
       >
         <TextInput
-          placeholder='Url'
+          placeholder={t('url')}
           onChangeText={setUrl}
           value={url}
           style={{
@@ -145,7 +147,7 @@ const CreateLink = () => {
         marginBottom={10}
       >
         <TextInput
-          placeholder='Nazwa linka'
+          placeholder={t('link_name')}
           onChangeText={setLinkName}
           value={linkName}
           style={{
