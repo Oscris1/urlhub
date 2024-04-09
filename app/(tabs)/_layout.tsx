@@ -7,6 +7,7 @@ import { useDatabase } from '@nozbe/watermelondb/hooks';
 import * as Clipboard from 'expo-clipboard';
 import { Link as LinkModel } from '../../src/model/link';
 import { useSegments } from 'expo-router';
+import Toast from 'react-native-toast-message';
 
 export default function TabLayout() {
   const shortenLink = (link: string, maxLength = 60) => {
@@ -19,7 +20,14 @@ export default function TabLayout() {
 
   const handleFastAdd = async () => {
     const text = await Clipboard.getStringAsync();
-    if (!text) return;
+    if (!text) {
+      Toast.show({
+        type: 'error',
+        text1: 'Brak url w schowku',
+        visibilityTime: 2000,
+      });
+      return;
+    }
     Alert.alert(
       'Szybkie dodawanie linka', // Tytuł
       `Czy chcesz zapisać podaną wartość jako link?\n\n${shortenLink(text)}`, // Wiadomość

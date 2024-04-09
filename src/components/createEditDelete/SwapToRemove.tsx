@@ -12,6 +12,7 @@ import { ReText } from 'react-native-redash';
 import { useDatabase } from '@nozbe/watermelondb/react';
 import { router } from 'expo-router';
 import { StyleSheet } from 'react-native';
+import Toast from 'react-native-toast-message';
 
 interface SwapToRemoveProps {
   id: string;
@@ -27,6 +28,12 @@ const SwapToRemove: React.FC<SwapToRemoveProps> = ({ id }) => {
     await database.write(async () => {
       const link = await database.get('links').find(id);
       await link.destroyPermanently();
+      Toast.show({
+        type: 'success',
+        text1: 'Usunięto',
+        text2: `Link został ${!!id ? 'zaktualizowany' : 'dodany'}`,
+        visibilityTime: 1500,
+      });
       router.back();
     });
   };

@@ -12,6 +12,7 @@ import { View, Text } from 'tamagui';
 import SaveButton from '@/components/SaveButton';
 import { SelectCategory } from '@/components/SelectCategory';
 import { router, useLocalSearchParams } from 'expo-router';
+import Toast from 'react-native-toast-message';
 
 const CreateLink = () => {
   const database = useDatabase();
@@ -72,7 +73,12 @@ const CreateLink = () => {
           });
         }
       });
-
+      Toast.show({
+        type: 'success',
+        text1: 'Zapisano',
+        text2: `Link został ${!!id ? 'zaktualizowany' : 'dodany'}`,
+        visibilityTime: 1500,
+      });
       resetFormAndState();
     } catch (error) {
       console.error('Failed to create new link:', error);
