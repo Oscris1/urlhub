@@ -11,7 +11,7 @@ export const resources = {
   pl: { translation: pl },
 };
 
-const storage = new MMKV();
+export const storage = new MMKV();
 
 // Funkcja do inicjalizacji i18next z uwzględnieniem MMKV
 export const initializeI18n = async (): Promise<void> => {

@@ -23,5 +23,8 @@
   "unassigned": "Unassigned",
   "select": "Select",
   "select_category": "Select category",
-  "add_category": "Add category"
+  "add_category": "Add category",
+  "select_language": "Select language:",
+  "polish": "Polish",
+  "english": "English"
 }

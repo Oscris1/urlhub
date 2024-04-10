@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import Category from '@/model/category';
 import { Select, View } from 'tamagui';
 import { withObservables } from '@nozbe/watermelondb/react';
@@ -34,6 +34,10 @@ const CategoryList: React.FC<CategoryListProps> = ({
       ...categories,
     ];
   }
+
+  useEffect(() => {
+    setData(data);
+  }, [t('all'), t('unassigned')]);
 
   return (
     <View onLayout={() => setData(data)}>

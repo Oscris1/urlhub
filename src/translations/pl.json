@@ -23,5 +23,8 @@
   "unassigned": "Nieprzypisane",
   "select": "Wybierz",
   "select_category": "Wybierz kategorię",
-  "add_category": "Dodaj kategorię"
+  "add_category": "Dodaj kategorię",
+  "select_language": "Wybierz język:",
+  "polish": "Polski",
+  "english": "Angielski"
 }
