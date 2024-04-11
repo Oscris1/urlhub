@@ -5,7 +5,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Alert } from 'react-native';
 import { useDatabase } from '@nozbe/watermelondb/hooks';
 import * as Clipboard from 'expo-clipboard';
-import { Link as LinkModel } from '../../src/model/link';
+import { Link as LinkModel } from '../../model/link';
 import { useSegments } from 'expo-router';
 import Toast from 'react-native-toast-message';
 import { useTranslation } from 'react-i18next';

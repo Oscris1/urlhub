@@ -10,9 +10,7 @@ import { DatabaseProvider } from '@nozbe/watermelondb/react';
 import { database } from '@/model';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
-import '../tamagui-web.css';
-
-import { config } from '../tamagui.config';
+import { config } from '../../tamagui.config';
 import { useFonts } from 'expo-font';
 import { useEffect } from 'react';
 import Toast from 'react-native-toast-message';
