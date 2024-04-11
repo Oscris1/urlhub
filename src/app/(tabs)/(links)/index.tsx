@@ -9,7 +9,7 @@ import { SelectCategory } from '@/components/SelectCategory';
 import { LinearGradient } from '@tamagui/linear-gradient';
 
 import { Stack } from 'expo-router';
-import ShimmerTextEffect from '@/components/ShimmerTextEffect';
+import { ShimmerTextEffect } from '@/components/common';
 
 const Index = () => {
   const database = useDatabase();

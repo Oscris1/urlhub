@@ -26,5 +26,8 @@
   "add_category": "Dodaj kategorię",
   "select_language": "Wybierz język:",
   "polish": "Polski",
-  "english": "Angielski"
+  "english": "English",
+  "language_changed": "Zmieniono język na Polski",
+  "save": "Zapisz",
+  "saving": "Zapisywanie"
 }

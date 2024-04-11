@@ -12,8 +12,6 @@ export const resources = {
 };
 
 export const storage = new MMKV();
-
-// Funkcja do inicjalizacji i18next z uwzględnieniem MMKV
 export const initializeI18n = async (): Promise<void> => {
   let userLanguage = storage.getString('userLanguage');
   console.log('userLanguage', userLanguage);
@@ -33,9 +31,4 @@ export const initializeI18n = async (): Promise<void> => {
       escapeValue: false,
     },
   });
-};
-
-export const changeLanguage = (language: string): void => {
-  storage.set('userLanguage', language);
-  i18n.changeLanguage(language);
 };

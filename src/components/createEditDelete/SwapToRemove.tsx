@@ -1,7 +1,7 @@
 import React from 'react';
 import { View } from 'tamagui';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
-import Animated, {
+import {
   clamp,
   runOnJS,
   useAnimatedStyle,
@@ -14,6 +14,7 @@ import { router } from 'expo-router';
 import { StyleSheet } from 'react-native';
 import Toast from 'react-native-toast-message';
 import { useTranslation } from 'react-i18next';
+import { AnimatedView } from '@/components/common';
 
 interface SwapToRemoveProps {
   id: string;
@@ -87,11 +88,11 @@ const SwapToRemove: React.FC<SwapToRemoveProps> = ({ id }) => {
         borderRadius={10}
       >
         <GestureDetector gesture={pan}>
-          <Animated.View style={[styles.swiper, animatedStyles]}>
-            <Animated.View pointerEvents='none'>
+          <AnimatedView style={[styles.swiper, animatedStyles]}>
+            <AnimatedView pointerEvents='none'>
               <ReText text={text} style={styles.text} />
-            </Animated.View>
-          </Animated.View>
+            </AnimatedView>
+          </AnimatedView>
         </GestureDetector>
       </View>
     </View>

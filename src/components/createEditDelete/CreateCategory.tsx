@@ -4,7 +4,7 @@ import Category from '@/model/category';
 import { colors } from '@/constants/colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { View, Text, Input } from 'tamagui';
-import SaveButton from '@/components/SaveButton';
+import { SaveButton } from '@/components/common';
 import { useTranslation } from 'react-i18next';
 
 const CreateCategory = () => {

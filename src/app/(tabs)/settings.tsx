@@ -6,7 +6,7 @@ import { View } from 'tamagui';
 import { LinearGradient } from '@tamagui/linear-gradient';
 
 import { Stack } from 'expo-router';
-import ShimmerTextEffect from '@/components/ShimmerTextEffect';
+import { ShimmerTextEffect } from '@/components/common';
 import SelectLanguage from '@/components/settings/SelectLanguage';
 
 const Settings = () => {

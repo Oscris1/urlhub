@@ -8,8 +8,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import { Link } from '@/model/link';
 import * as Clipboard from 'expo-clipboard';
 import { View, Text } from 'tamagui';
-
-import SaveButton from '@/components/SaveButton';
+import { SaveButton } from '@/components/common';
 import { SelectCategory } from '@/components/SelectCategory';
 import { router, useLocalSearchParams } from 'expo-router';
 import Toast from 'react-native-toast-message';

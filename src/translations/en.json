@@ -25,6 +25,9 @@
   "select_category": "Select category",
   "add_category": "Add category",
   "select_language": "Select language:",
-  "polish": "Polish",
-  "english": "English"
+  "polish": "Polski",
+  "english": "English",
+  "language_changed": "Language changed to English",
+  "save": "Save",
+  "saving": "Saving"
 }

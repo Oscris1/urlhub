@@ -82,12 +82,11 @@ export default function TabLayout() {
         name='add'
         listeners={() => ({
           tabPress: (e) => {
-            // Zapobieganie standardowej akcji nawigacji
             e.preventDefault();
-            // Wywołanie funkcji dodającej element do bazy danych
-            if (segments[2] !== 'createEdit') {
-              router.push('/createEdit');
+            if (segments[1] !== '(links)') {
+              router.replace('/(tabs)/(links)');
             }
+            router.push('/createEdit');
           },
         })}
         options={{
@@ -105,9 +104,7 @@ export default function TabLayout() {
         name='fast-add'
         listeners={() => ({
           tabPress: (e) => {
-            // Zapobieganie standardowej akcji nawigacji
             e.preventDefault();
-            // Wywołanie funkcji dodającej element do bazy danych
             handleFastAdd();
           },
         })}
