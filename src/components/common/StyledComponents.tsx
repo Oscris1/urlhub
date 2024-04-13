@@ -6,7 +6,7 @@ export const RadioOuter = styled(View, {
   height: 20,
   borderRadius: 10,
   borderWidth: 0.5,
-  borderColor: '#8DA2EE',
+  borderColor: '$primary',
   justifyContent: 'center',
   alignItems: 'center',
   marginRight: 4,

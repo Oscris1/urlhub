@@ -1,13 +1,11 @@
-import { TextInput, TouchableOpacity } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { useDatabase } from '@nozbe/watermelondb/hooks';
 import Category from '@/model/category';
-import { colors } from '@/constants/colors';
-import { MaterialIcons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import { Link } from '@/model/link';
 import * as Clipboard from 'expo-clipboard';
-import { View, Text } from 'tamagui';
+import { View, Text, Input, useTheme } from 'tamagui';
 import { SaveButton } from '@/components/common';
 import { SelectCategory } from '@/components/SelectCategory';
 import { router, useLocalSearchParams } from 'expo-router';
@@ -23,6 +21,7 @@ const CreateLink = () => {
   );
   const { id }: { id: string } = useLocalSearchParams(); // string | string[] by default
   const { t } = useTranslation();
+  const theme = useTheme();
 
   const prepareEdit = async () => {
     if (id) {
@@ -101,12 +100,12 @@ const CreateLink = () => {
 
   return (
     <View
-      backgroundColor='rgba(141, 162, 238, 0.3)'
+      backgroundColor='$secondary'
       padding={20}
       borderRadius={10}
       height={250}
     >
-      <Text color='white' paddingBottom={10}>
+      <Text color='$text' paddingBottom={10}>
         {id ? t('edit') : t('add')} link
       </Text>
       <View
@@ -114,30 +113,27 @@ const CreateLink = () => {
         justifyContent='space-between'
         marginBottom={10}
       >
-        <TextInput
+        <Input
           placeholder={t('url')}
           onChangeText={setUrl}
           value={url}
-          style={{
-            paddingLeft: 3,
-            backgroundColor: 'white',
-            width: '80%',
-            borderRadius: 6,
-            borderWidth: 2,
-            borderColor: colors[1][0],
-          }}
+          size='$3'
+          paddingLeft={6}
+          bg='$white'
+          w='80%'
+          borderRadius={6}
         />
         <TouchableOpacity
           style={{
             width: '18%',
-            backgroundColor: colors[1][0],
+            backgroundColor: theme.primary.val,
             justifyContent: 'center',
             alignItems: 'center',
             borderRadius: 6,
           }}
           onPress={fetchCopiedText}
         >
-          <FontAwesome name='paste' size={20} color='white' />
+          <FontAwesome name='paste' size={20} color={theme.textContrast.val} />
         </TouchableOpacity>
       </View>
       <View
@@ -145,18 +141,15 @@ const CreateLink = () => {
         justifyContent='space-between'
         marginBottom={10}
       >
-        <TextInput
+        <Input
           placeholder={t('link_name')}
           onChangeText={setLinkName}
           value={linkName}
-          style={{
-            backgroundColor: 'white',
-            width: '100%',
-            borderRadius: 6,
-            borderWidth: 2,
-            borderColor: colors[1][0],
-            paddingLeft: 3,
-          }}
+          size='$3'
+          paddingLeft={6}
+          backgroundColor='$white'
+          w='100%'
+          borderRadius={6}
         />
       </View>
 
@@ -168,11 +161,7 @@ const CreateLink = () => {
         borderRadius={6}
       />
       <View marginTop={10} paddingBottom={30}>
-        <SaveButton
-          icon={<MaterialIcons name='add' size={30} color='white' />}
-          onPress={createNewLink}
-          disabled={!url}
-        />
+        <SaveButton onPress={createNewLink} disabled={!url} />
       </View>
     </View>
   );

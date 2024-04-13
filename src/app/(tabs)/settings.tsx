@@ -1,28 +1,28 @@
 import React from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
-import { View } from 'tamagui';
-
+import { Spacer, View, useTheme } from 'tamagui';
 import { LinearGradient } from '@tamagui/linear-gradient';
-
 import { Stack } from 'expo-router';
 import { ShimmerTextEffect } from '@/components/common';
 import SelectLanguage from '@/components/settings/SelectLanguage';
+import SelectTheme from '@/components/settings/SelectTheme';
+import { useColorScheme } from 'react-native';
 
 const Settings = () => {
   const insets = useSafeAreaInsets();
-
-  const gradientColors = ['#DDE4FF', '#8DA2EE'];
+  const theme = useTheme();
+  const colorScheme = useColorScheme();
 
   return (
-    <View backgroundColor='white' width='100%' height='100%'>
+    <View backgroundColor='$bg' width='100%' height='100%'>
       <Stack.Screen
         options={{
           headerShown: false,
         }}
       />
       <LinearGradient
-        colors={gradientColors}
+        colors={['$gradientAdditional', '$primary']}
         start={{ x: 1, y: 1 }}
         end={{ x: 0, y: 0 }}
         width='100%'
@@ -32,8 +32,8 @@ const Settings = () => {
       >
         <ShimmerTextEffect
           text='Url hub'
-          startColor='black'
-          endColor='#8DA2EE'
+          startColor={theme.textContrast.val}
+          endColor={theme.primary.val}
           delay={8000}
           isInfinity
         />
@@ -43,9 +43,9 @@ const Settings = () => {
         borderTopStartRadius={25}
         borderTopEndRadius={25}
         marginTop={-40}
-        backgroundColor='black'
+        backgroundColor='$bg'
         flex={1}
-        shadowColor='#000'
+        shadowColor='$black'
         shadowOffset={{ width: 0, height: 4 }}
         shadowOpacity={0.3}
         shadowRadius={4.65}
@@ -53,9 +53,11 @@ const Settings = () => {
       >
         <View pt={40} px={10}>
           <SelectLanguage />
+          <Spacer />
+          <SelectTheme />
         </View>
       </View>
-      <StatusBar style='dark' />
+      <StatusBar style={colorScheme === 'dark' ? 'dark' : 'light'} />
     </View>
   );
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'tamagui';
+import { View, useTheme } from 'tamagui';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import {
   clamp,
@@ -28,6 +28,7 @@ const SwapToRemove: React.FC<SwapToRemoveProps> = ({ id }) => {
   const slide = t('slide_to_delete');
   const drop = t('drop_to_delete');
   const text = useSharedValue(slide);
+  const theme = useTheme();
 
   const handleRemove = async () => {
     await database.write(async () => {
@@ -72,14 +73,16 @@ const SwapToRemove: React.FC<SwapToRemoveProps> = ({ id }) => {
 
   const animatedStyles = useAnimatedStyle(() => {
     return {
-      backgroundColor: !release.value ? '#F28585' : '#FF6868',
+      backgroundColor: !release.value
+        ? theme.danger.val
+        : theme.dangerStrong.val,
       transform: [{ translateX: !!release.value ? 0 : scrollX.value }],
     };
   });
   return (
     <View alignItems='center' marginBottom={20}>
       <View
-        bg='#F28585'
+        bg='$danger'
         width='90%'
         height={40}
         marginTop={10}
@@ -88,7 +91,14 @@ const SwapToRemove: React.FC<SwapToRemoveProps> = ({ id }) => {
         borderRadius={10}
       >
         <GestureDetector gesture={pan}>
-          <AnimatedView style={[styles.swiper, animatedStyles]}>
+          <AnimatedView
+            w='100%'
+            h={40}
+            borderRadius={10}
+            justifyContent='center'
+            alignItems='center'
+            style={animatedStyles}
+          >
             <AnimatedView pointerEvents='none'>
               <ReText text={text} style={styles.text} />
             </AnimatedView>
@@ -102,13 +112,5 @@ const SwapToRemove: React.FC<SwapToRemoveProps> = ({ id }) => {
 export default SwapToRemove;
 
 const styles = StyleSheet.create({
-  swiper: {
-    width: '100%',
-    height: 40,
-    backgroundColor: '#F2613F',
-    borderRadius: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   text: { color: 'white', fontSize: 16, fontWeight: '500' },
 });

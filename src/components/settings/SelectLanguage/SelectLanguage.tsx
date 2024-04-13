@@ -6,10 +6,7 @@ import { PressableButton } from '@/components/common';
 import Toast from 'react-native-toast-message';
 import { useSharedValue } from 'react-native-reanimated';
 
-import {
-  LanguageSelectItem,
-  LanguageSelectItemDisabled,
-} from './LanguageSelectItem';
+import { SelectItem, SelectItemDisabled } from './SelectItem';
 
 export const SelectLanguage = () => {
   const { t, i18n } = useTranslation();
@@ -44,24 +41,20 @@ export const SelectLanguage = () => {
   };
 
   return (
-    <View
-      backgroundColor='rgba(141, 162, 238, 0.3)'
-      padding={20}
-      borderRadius={10}
-    >
-      <Text color='white'>{t('select_language')}</Text>
+    <View backgroundColor='$secondary' padding={20} borderRadius={10}>
+      <Text color='$text'>{t('select_language')}</Text>
       <YStack>
         {languages.map((language) => (
           <View key={language.id}>
             {!isLoading ? (
-              <LanguageSelectItem
-                language={language}
-                sharedSelectedLanguage={sharedSelectedLanguage}
+              <SelectItem
+                item={language}
+                sharedSelectedItem={sharedSelectedLanguage}
               />
             ) : (
-              <LanguageSelectItemDisabled
-                language={language}
-                sharedSelectedLanguage={sharedSelectedLanguage}
+              <SelectItemDisabled
+                item={language}
+                sharedSelectedItem={sharedSelectedLanguage}
               />
             )}
           </View>

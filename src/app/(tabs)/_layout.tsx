@@ -9,9 +9,11 @@ import { Link as LinkModel } from '../../model/link';
 import { useSegments } from 'expo-router';
 import Toast from 'react-native-toast-message';
 import { useTranslation } from 'react-i18next';
+import { useTheme } from 'tamagui';
 
 export default function TabLayout() {
   const { t } = useTranslation();
+  const theme = useTheme();
   const shortenLink = (link: string, maxLength = 60) => {
     if (link.length > maxLength) {
       return link.substring(0, maxLength - 3) + '...';
@@ -58,9 +60,9 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: 'white',
+        tabBarActiveTintColor: theme.text.val,
         headerShown: false,
-        tabBarStyle: { backgroundColor: 'black' },
+        tabBarStyle: { backgroundColor: theme.bg.val },
         tabBarShowLabel: false,
       }}
     >
@@ -110,13 +112,13 @@ export default function TabLayout() {
         })}
         options={{
           tabBarBadge: '+',
-          tabBarBadgeStyle: { backgroundColor: '#8DA2EE' },
+          tabBarBadgeStyle: { backgroundColor: theme.primary.val },
           title: '',
           tabBarIcon: () => (
             <MaterialCommunityIcons
               name='lightning-bolt'
               size={30}
-              color='#8DA2EE'
+              color={theme.primary.val}
             />
           ),
         }}

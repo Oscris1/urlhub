@@ -1,6 +1,6 @@
 import { ActivityIndicator, Keyboard } from 'react-native';
 import React, { useState, useEffect } from 'react';
-import { Adapt, Select, Sheet } from 'tamagui';
+import { Adapt, Select, Sheet, useTheme } from 'tamagui';
 import type { SelectProps, SizeTokens } from 'tamagui';
 import { useDatabase } from '@nozbe/watermelondb/react';
 import { Entypo } from '@expo/vector-icons';
@@ -28,6 +28,8 @@ export const SelectCategory = ({
   const database = useDatabase();
   const [data, setData] = useState<{ id: string; name: string }[]>([]);
   const [categoryName, setCategoryName] = useState('');
+  const theme = useTheme();
+  const primaryColor = theme.primary.val;
 
   useEffect(() => {
     if (selectedCategory && data) {
@@ -55,18 +57,18 @@ export const SelectCategory = ({
         flex={1}
         size={!!size ? size : '$4'}
         borderRadius={!!borderRadius ? borderRadius : 15}
-        backgroundColor='white'
-        borderColor='#8DA2EE'
-        borderWidth={0.5}
+        backgroundColor='$white'
+        borderColor='$black'
+        borderWidth={1}
         iconAfter={
           !categoryName && selectedCategory ? (
-            <ActivityIndicator color='#8DA2EE' />
+            <ActivityIndicator color={primaryColor} />
           ) : (
-            <Entypo name='chevron-down' size={24} color='#8DA2EE' />
+            <Entypo name='chevron-down' size={24} color={primaryColor} />
           )
         }
       >
-        <Select.Value color='#20262E' placeholder={t('select_category')}>
+        <Select.Value color='$black' placeholder={t('select_category')}>
           {!!categoryName
             ? categoryName
             : !selectedCategory
@@ -87,7 +89,7 @@ export const SelectCategory = ({
             stiffness: 150,
           }}
         >
-          <Sheet.Frame backgroundColor='black'>
+          <Sheet.Frame backgroundColor='$bg'>
             <Sheet.ScrollView>
               <Adapt.Contents />
             </Sheet.ScrollView>
@@ -99,10 +101,7 @@ export const SelectCategory = ({
       <Select.Content zIndex={200000}>
         <Select.Viewport minWidth={200}>
           <Select.Group>
-            <Select.Label
-              backgroundColor='rgba(141, 162, 238, 0.2)'
-              color='white'
-            >
+            <Select.Label backgroundColor='$secondary' color='$text'>
               Kategorie
             </Select.Label>
             {/* for longer lists memoizing these is useful */}

@@ -1,6 +1,5 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
-import Animated, {
+import {
   useSharedValue,
   useAnimatedStyle,
   withRepeat,
@@ -11,6 +10,8 @@ import Animated, {
   Easing,
   withSequence,
 } from 'react-native-reanimated';
+import { View } from 'tamagui';
+import { AnimatedText } from './AnimatedComponents';
 
 interface ShimmerTextEffectProps {
   text: string;
@@ -45,12 +46,10 @@ const ShimmerTextEffect: React.FC<ShimmerTextEffectProps> = ({
   }, []);
 
   return (
-    <View style={styles.container}>
+    <View flexDirection='row' alignItems='center' justifyContent='center'>
       {letters.map((letter: string, index: number) => {
         const inputRange = [0, (index + 1) / letters.length, 1];
-
         const animatedStyles = useAnimatedStyle(() => {
-          // Interpolacja przezroczystości i koloru
           const opacity = interpolate(progress.value, inputRange, [1, 0.5, 1]);
           const color = interpolateColor(progress.value, inputRange, [
             startColor,
@@ -62,27 +61,20 @@ const ShimmerTextEffect: React.FC<ShimmerTextEffectProps> = ({
         });
 
         return (
-          <Animated.Text key={index} style={[styles.letter, animatedStyles]}>
+          <AnimatedText
+            key={index}
+            fontWeight='500'
+            fontSize={22}
+            color='$text'
+            fontFamily='$silkscreen'
+            style={animatedStyles}
+          >
             {letter}
-          </Animated.Text>
+          </AnimatedText>
         );
       })}
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  letter: {
-    fontWeight: '500',
-    fontSize: 22,
-    color: 'white', // Domyślny kolor, zostanie nadpisany przez animację
-    fontFamily: 'Inter',
-  },
-});
 
 export default ShimmerTextEffect;

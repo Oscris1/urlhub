@@ -1,5 +1,5 @@
-import React, { ReactNode, useState } from 'react';
-import {
+import React, { useState } from 'react';
+import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withTiming,
@@ -7,22 +7,20 @@ import {
   withSpring,
   interpolateColor,
 } from 'react-native-reanimated';
-import { colors } from '@/constants/colors';
-import { Spinner } from 'tamagui';
+import { Spinner, useTheme } from 'tamagui';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import { AnimatedView } from './AnimatedComponents';
+import { MaterialIcons } from '@expo/vector-icons';
+
+const AnimatedMaterialIcons = Animated.createAnimatedComponent(MaterialIcons);
 
 interface SaveButtonButtonProps {
   onPress: (animation: () => void, endAnimation: () => void) => Promise<void>;
-  icon: ReactNode;
   disabled?: boolean;
 }
 
-const SaveButton: React.FC<SaveButtonButtonProps> = ({
-  onPress,
-  icon,
-  disabled,
-}) => {
+const SaveButton: React.FC<SaveButtonButtonProps> = ({ onPress, disabled }) => {
+  const theme = useTheme();
   const [isLoading, setIsLoading] = useState(false);
   const isActive = useSharedValue(false);
   const animation = useSharedValue(0);
@@ -57,12 +55,12 @@ const SaveButton: React.FC<SaveButtonButtonProps> = ({
     const backgroundColor = interpolateColor(
       animation.value,
       [0, 1],
-      ['rgba(141, 162, 238, 1)', 'rgba(141, 162, 238, 0.3)']
+      [theme.primary.val, theme.secondary.val]
     );
     const borderColor = interpolateColor(
       animation.value,
       [0, 1],
-      ['transparent', 'white']
+      ['transparent', theme.text.val]
     );
     return {
       borderWidth: animation.value,
@@ -80,10 +78,13 @@ const SaveButton: React.FC<SaveButtonButtonProps> = ({
   });
 
   const rIconStyle = useAnimatedStyle(() => {
+    const color = interpolateColor(
+      animation.value,
+      [0, 1],
+      [theme.textContrast.val, theme.text.val]
+    );
     return {
-      opacity: withTiming(isActive.value ? 0.5 : 1, {
-        duration: 100,
-      }),
+      color,
       transform: [
         {
           rotate: withSpring(isActive.value ? `${Math.PI / 4}rad` : '0rad'),
@@ -96,7 +97,6 @@ const SaveButton: React.FC<SaveButtonButtonProps> = ({
     <GestureDetector gesture={gesture}>
       <AnimatedView
         width='100%'
-        backgroundColor={colors[1][0]}
         justifyContent='center'
         alignItems='center'
         borderRadius={6}
@@ -104,9 +104,9 @@ const SaveButton: React.FC<SaveButtonButtonProps> = ({
         height={36}
       >
         {!!isLoading ? (
-          <Spinner size='small' color='white' />
+          <Spinner size='small' color={theme.textContrast.val} />
         ) : (
-          <AnimatedView style={rIconStyle}>{icon}</AnimatedView>
+          <AnimatedMaterialIcons name='add' size={30} style={rIconStyle} />
         )}
       </AnimatedView>
     </GestureDetector>

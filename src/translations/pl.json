@@ -29,5 +29,10 @@
   "english": "English",
   "language_changed": "Zmieniono język na Polski",
   "save": "Zapisz",
-  "saving": "Zapisywanie"
+  "saving": "Zapisywanie",
+  "system": "Systemowy",
+  "dark": "Ciemny",
+  "light": "Jasny",
+  "theme_changed": "Zmieniono motyw",
+  "choose_theme": "Wybierz motyw:"
 }

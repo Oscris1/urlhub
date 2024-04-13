@@ -4,11 +4,13 @@ import * as Clipboard from 'expo-clipboard';
 import { Link } from '../../model/link';
 import { withObservables } from '@nozbe/watermelondb/react';
 import * as Linking from 'expo-linking';
-import { View, Text, YStack } from 'tamagui';
+import { Text, YStack, useTheme } from 'tamagui';
 import { router } from 'expo-router';
 import Category from '@/model/category';
 import OptionButton from './OptionButton';
 import { useTranslation } from 'react-i18next';
+import { AnimatedView } from '../common';
+import { SlideInLeft } from 'react-native-reanimated';
 
 const addHttps = (url: string) => {
   // Sprawdza, czy URL zaczyna się od "http://" lub "https://", jeśli nie - dodaje "https://"
@@ -57,12 +59,19 @@ interface LinkItemProps {
 
 const LinkItem: React.FC<LinkItemProps> = ({ link, index, category }) => {
   const { t } = useTranslation();
+  const theme = useTheme();
+  const iconColor = theme.textContrast.val;
+
   return (
-    <View
+    <AnimatedView
+      entering={SlideInLeft.delay(index * 25)
+        .springify()
+        .mass(2)
+        .damping(16)}
       flexDirection='row'
       height={60}
       marginBottom={15}
-      backgroundColor='rgba(141, 162, 238, 0.2)'
+      backgroundColor='$secondary'
       justifyContent='center'
       alignItems='center'
       px={10}
@@ -70,11 +79,11 @@ const LinkItem: React.FC<LinkItemProps> = ({ link, index, category }) => {
     >
       <Pressable style={{ flex: 1 }} onPress={() => openLink(link.url)}>
         <YStack>
-          <Text color='white' fontWeight='500' numberOfLines={1}>
+          <Text color='$text' fontWeight='500' numberOfLines={1}>
             {!!link.name ? link.name : link.url}
           </Text>
           <Text
-            color='#8DA2EE'
+            color='$primary'
             fontWeight='300'
             fontSize={10}
             numberOfLines={1}
@@ -85,21 +94,21 @@ const LinkItem: React.FC<LinkItemProps> = ({ link, index, category }) => {
       </Pressable>
 
       <OptionButton
-        iconComponent={<Feather name='copy' size={20} color='#20262E' />}
+        iconComponent={<Feather name='copy' size={20} color={iconColor} />}
         onPress={() => copyToClipboard(link.url)}
       />
       <OptionButton
-        iconComponent={<Feather name='share-2' size={20} color='#20262E' />}
+        iconComponent={<Feather name='share-2' size={20} color={iconColor} />}
         onPress={() =>
           shareLink(link.url, t('share_link'), t('check_this_page'))
         }
       />
       <OptionButton
-        iconComponent={<Entypo name='edit' size={20} color='#20262E' />}
+        iconComponent={<Entypo name='edit' size={20} color={iconColor} />}
         // @ts-ignore
         onPress={() => router.push(`/createEdit?id=${link.id}`)}
       />
-    </View>
+    </AnimatedView>
   );
 };
 

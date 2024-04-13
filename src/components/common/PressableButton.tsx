@@ -1,16 +1,17 @@
 import React from 'react';
-import { Text } from 'tamagui';
+import { Text, useTheme } from 'tamagui';
 import { useTranslation } from 'react-i18next';
 import {
   interpolateColor,
   useAnimatedStyle,
   useSharedValue,
+  withSequence,
   withSpring,
   withTiming,
 } from 'react-native-reanimated';
 import { Pressable } from 'react-native';
 
-import { AnimatedView } from './AnimatedComponents';
+import { AnimatedText, AnimatedView } from './AnimatedComponents';
 
 interface PressableButtonProps {
   onPress: () => void;
@@ -22,7 +23,7 @@ const PressableButton: React.FC<PressableButtonProps> = ({
   onPress,
 }) => {
   const { t } = useTranslation();
-
+  const theme = useTheme();
   const isActive = useSharedValue(false);
   const animation = useSharedValue(0);
 
@@ -30,12 +31,12 @@ const PressableButton: React.FC<PressableButtonProps> = ({
     const backgroundColor = interpolateColor(
       animation.value,
       [0, 1],
-      ['rgba(141, 162, 238, 1)', 'rgba(141, 162, 238, 0.3)']
+      [theme.primary.val, theme.secondary.val]
     );
     const borderColor = interpolateColor(
       animation.value,
       [0, 1],
-      ['transparent', 'white']
+      ['transparent', theme.text.val]
     );
     return {
       borderWidth: animation.value,
@@ -52,16 +53,28 @@ const PressableButton: React.FC<PressableButtonProps> = ({
     };
   });
 
+  const rTextStyle = useAnimatedStyle(() => {
+    const color = interpolateColor(
+      animation.value,
+      [0, 1],
+      [theme.textContrast.val, theme.text.val]
+    );
+
+    return {
+      color,
+    };
+  });
+
   return (
     <Pressable
       disabled={isLoading}
       onPress={onPress}
       onPressIn={() => {
-        animation.value = withTiming(1, { duration: 500 });
+        animation.value = withSequence(withTiming(1, { duration: 500 }));
         isActive.value = true;
       }}
       onPressOut={() => {
-        animation.value = withTiming(0, { duration: 1000 });
+        animation.value = withTiming(0, { duration: 100 });
 
         isActive.value = false;
       }}
@@ -74,7 +87,9 @@ const PressableButton: React.FC<PressableButtonProps> = ({
         alignItems='center'
         style={rStyle}
       >
-        <Text color={'white'}>{t(isLoading ? 'saving' : 'save')}</Text>
+        <AnimatedText style={rTextStyle}>
+          {t(isLoading ? 'saving' : 'save')}
+        </AnimatedText>
       </AnimatedView>
     </Pressable>
   );

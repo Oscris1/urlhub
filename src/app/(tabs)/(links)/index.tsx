@@ -3,31 +3,31 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { useDatabase } from '@nozbe/watermelondb/hooks';
 import EnchancedLinksList from '@/components/linkList';
-import { View, YStack } from 'tamagui';
+import { View, YStack, useTheme } from 'tamagui';
 import { SelectCategory } from '@/components/SelectCategory';
 
 import { LinearGradient } from '@tamagui/linear-gradient';
 
 import { Stack } from 'expo-router';
 import { ShimmerTextEffect } from '@/components/common';
+import { useColorScheme } from 'react-native';
 
 const Index = () => {
   const database = useDatabase();
   const insets = useSafeAreaInsets();
-
+  const theme = useTheme();
+  const colorScheme = useColorScheme();
   const [selectedCategory, setSelectedCategory] = useState('all');
 
-  const gradientColors = ['#DDE4FF', '#8DA2EE'];
-
   return (
-    <View backgroundColor='white' width='100%' height='100%'>
+    <View backgroundColor='$bg' width='100%' height='100%'>
       <Stack.Screen
         options={{
           headerShown: false,
         }}
       />
       <LinearGradient
-        colors={gradientColors}
+        colors={['$gradientAdditional', '$primary']}
         start={{ x: 1, y: 1 }}
         end={{ x: 0, y: 0 }}
         width='100%'
@@ -37,8 +37,8 @@ const Index = () => {
       >
         <ShimmerTextEffect
           text='Url hub'
-          startColor='black'
-          endColor='#8DA2EE'
+          startColor={theme.textContrast.val}
+          endColor={theme.primary.val}
           delay={8000}
           isInfinity
         />
@@ -48,9 +48,9 @@ const Index = () => {
         borderTopStartRadius={25}
         borderTopEndRadius={25}
         marginTop={-40}
-        backgroundColor='black'
+        backgroundColor='$bg'
         flex={1}
-        shadowColor='#000'
+        shadowColor='$black'
         shadowOffset={{ width: 0, height: 4 }}
         shadowOpacity={0.3}
         shadowRadius={4.65}
@@ -77,7 +77,7 @@ const Index = () => {
           selectedCategory={selectedCategory}
         />
       </View>
-      <StatusBar style='dark' />
+      <StatusBar style={colorScheme === 'dark' ? 'dark' : 'light'} />
     </View>
   );
 };

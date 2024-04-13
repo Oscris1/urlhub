@@ -5,7 +5,7 @@ export const toastConfig: ToastConfig = {
     <View
       h={40}
       px={10}
-      bg='rgba(141, 162, 238, 0.9)'
+      bg='$successToast'
       borderRadius={20}
       justifyContent='center'
       alignItems='center'
@@ -19,7 +19,7 @@ export const toastConfig: ToastConfig = {
     <View
       px={10}
       h={40}
-      bg='rgba(242, 133, 133, 0.9)'
+      bg='$errorToast'
       borderRadius={20}
       justifyContent='center'
       alignItems='center'

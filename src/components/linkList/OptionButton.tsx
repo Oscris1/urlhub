@@ -17,14 +17,14 @@ const OptionButton: React.FC<OptionButtonProps> = ({
       style={{ marginLeft: 4, width: '12%', height: '50%' }}
     >
       <LinearGradient
-        colors={['#DDE4FF', '#8DA2EE']}
+        colors={['$gradientAdditional', '$primary']}
         start={{ x: 1, y: 1 }}
         end={{ x: 0, y: 0 }}
         borderRadius={6}
         justifyContent='center'
         alignItems='center'
         height='100%'
-        shadowColor='#000'
+        shadowColor='$black'
         shadowOffset={{ width: 0, height: 2 }}
         shadowOpacity={0.25}
         shadowRadius={3.84}

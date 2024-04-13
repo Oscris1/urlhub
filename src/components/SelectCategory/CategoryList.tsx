@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo } from 'react';
 import Category from '@/model/category';
-import { Select, View } from 'tamagui';
+import { Select, View, useTheme } from 'tamagui';
 import { withObservables } from '@nozbe/watermelondb/react';
 import { Database } from '@nozbe/watermelondb';
 import { Entypo } from '@expo/vector-icons';
@@ -23,6 +23,7 @@ const CategoryList: React.FC<CategoryListProps> = ({
   add,
   setData,
 }) => {
+  const theme = useTheme();
   const { t } = useTranslation();
   let data: { id: string; name: string }[];
   if (add) {
@@ -46,16 +47,16 @@ const CategoryList: React.FC<CategoryListProps> = ({
           data.map((item, i) => {
             return (
               <Select.Item
-                backgroundColor='black'
+                backgroundColor='$bg'
                 index={i}
                 key={item.id}
                 value={item.id}
-                borderBlockColor='#8DA2EE'
+                borderBlockColor='$primary'
                 borderBottomWidth={0.2}
               >
-                <Select.ItemText color='#8DA2EE'>{item.name}</Select.ItemText>
+                <Select.ItemText color='$primary'>{item.name}</Select.ItemText>
                 <Select.ItemIndicator marginLeft='auto'>
-                  <Entypo name='check' size={24} color='#8DA2EE' />
+                  <Entypo name='check' size={24} color={theme.primary.val} />
                 </Select.ItemIndicator>
               </Select.Item>
             );

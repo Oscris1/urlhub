@@ -16,6 +16,7 @@ import { useEffect } from 'react';
 import Toast from 'react-native-toast-message';
 import { toastConfig } from 'toast.config';
 import { initializeI18n } from '@/translations';
+import '../../tamagui-web.css';
 
 export {
   // Catch any errors thrown by the Layout component.

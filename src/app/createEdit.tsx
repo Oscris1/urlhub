@@ -1,37 +1,43 @@
 import React from 'react';
-import { View, Spacer } from 'tamagui';
+import { View, Spacer, useTheme } from 'tamagui';
 import CreateCategory from '@/components/createEditDelete/CreateCategory';
 import CreateLink from '@/components/createEditDelete/CreateLink';
 import { Stack, useLocalSearchParams } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import SwapToRemove from '@/components/createEditDelete/SwapToRemove';
 import { useTranslation } from 'react-i18next';
+import { useColorScheme } from 'react-native';
 
 const Add = () => {
   const { id }: { id: string } = useLocalSearchParams(); // string | string[] by default
   const { t } = useTranslation();
+  const theme = useTheme();
+  const colorScheme = useColorScheme();
   return (
     <>
       <Stack.Screen
         options={{
-          // https://reactnavigation.org/docs/headers#setting-the-header-title
           title: id ? t('edit') : t('add'),
-          // https://reactnavigation.org/docs/headers#adjusting-header-styles
-          headerStyle: { backgroundColor: 'black' },
-          headerTintColor: '#fff',
+          headerStyle: { backgroundColor: theme.bg.val },
+          headerTintColor: theme.text.val,
           headerTitleStyle: {
             fontWeight: 'bold',
           },
         }}
       />
       <View
-        backgroundColor='black'
+        backgroundColor='$bg'
         width='100%'
         height='100%'
         paddingHorizontal={10}
       >
         {/* New Category */}
-        {!id && <CreateCategory />}
+        {!id && (
+          <>
+            <Spacer />
+            <CreateCategory />
+          </>
+        )}
 
         <Spacer />
 
@@ -44,7 +50,7 @@ const Add = () => {
           </View>
         )}
       </View>
-      <StatusBar style='light' />
+      <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
     </>
   );
 };

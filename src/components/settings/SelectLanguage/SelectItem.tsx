@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, XStack, Spacer } from 'tamagui';
+import { Text, XStack, Spacer, useTheme } from 'tamagui';
 import { GestureDetector, Gesture } from 'react-native-gesture-handler';
 import {
   Easing,
@@ -9,38 +9,40 @@ import {
   withSequence,
   withTiming,
 } from 'react-native-reanimated';
-import { ActivityIndicator } from 'react-native';
+import { ActivityIndicator, Appearance } from 'react-native';
 import { AnimatedView, RadioOuter } from '@/components/common';
 
-interface LanguageSelectItemProps {
-  language: {
+interface ItemSelectItemProps {
+  item: {
     id: string;
     displayName: string;
   };
-  sharedSelectedLanguage: SharedValue<string>;
+  sharedSelectedItem: SharedValue<string>;
 }
 
-export const LanguageSelectItem: React.FC<LanguageSelectItemProps> = ({
-  language,
-  sharedSelectedLanguage,
+export const SelectItem: React.FC<ItemSelectItemProps> = ({
+  item,
+  sharedSelectedItem,
 }) => {
   const fillingSize = useSharedValue(16);
+  const theme = useTheme();
+  const colorScheme = Appearance.getColorScheme();
 
   const animatedStyle = (id: string) =>
     useAnimatedStyle(() => {
       return {
-        width: id === sharedSelectedLanguage.value ? fillingSize.value : 0,
-        height: id === sharedSelectedLanguage.value ? fillingSize.value : 0,
+        width: id === sharedSelectedItem.value ? fillingSize.value : 0,
+        height: id === sharedSelectedItem.value ? fillingSize.value : 0,
         borderRadius: fillingSize.value / 2,
-        backgroundColor: '#8DA2EE',
+        backgroundColor: theme.primary.val,
       };
-    }, [fillingSize]);
+    }, [fillingSize, colorScheme]);
 
   const tap = (id: string) =>
     Gesture.Tap()
       .onBegin(() => {})
       .onStart((event) => {
-        sharedSelectedLanguage.value = id;
+        sharedSelectedItem.value = id;
         fillingSize.value = withSequence(
           withTiming(0, { duration: 0 }),
           withTiming(16, { duration: 1500, easing: Easing.bounce })
@@ -48,30 +50,31 @@ export const LanguageSelectItem: React.FC<LanguageSelectItemProps> = ({
       });
 
   return (
-    <GestureDetector gesture={tap(language.id)}>
+    <GestureDetector gesture={tap(item.id)}>
       <XStack paddingVertical={4}>
         <RadioOuter>
-          <AnimatedView style={animatedStyle(language.id)} />
+          <AnimatedView style={animatedStyle(item.id)} />
         </RadioOuter>
-        <Text color='white'>{language.displayName}</Text>
+        <Text color='$text'>{item.displayName}</Text>
         <Spacer />
       </XStack>
     </GestureDetector>
   );
 };
 
-export const LanguageSelectItemDisabled: React.FC<LanguageSelectItemProps> = ({
-  language,
-  sharedSelectedLanguage,
+export const SelectItemDisabled: React.FC<ItemSelectItemProps> = ({
+  item,
+  sharedSelectedItem,
 }) => {
+  const theme = useTheme();
   return (
     <XStack paddingVertical={4}>
       <RadioOuter>
-        {language.id === sharedSelectedLanguage.value && (
-          <ActivityIndicator color='#8DA2EE' size='small' />
+        {item.id === sharedSelectedItem.value && (
+          <ActivityIndicator color={theme.primary.val} size='small' />
         )}
       </RadioOuter>
-      <Text color='white'>{language.displayName}</Text>
+      <Text color='$text'>{item.displayName}</Text>
       <Spacer />
     </XStack>
   );

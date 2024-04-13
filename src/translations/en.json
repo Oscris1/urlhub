@@ -29,5 +29,10 @@
   "english": "English",
   "language_changed": "Language changed to English",
   "save": "Save",
-  "saving": "Saving"
+  "saving": "Saving",
+  "system": "System",
+  "dark": "Dark",
+  "light": "Light",
+  "theme_changed": "Theme changed",
+  "choose_theme": "Choose theme:"
 }
