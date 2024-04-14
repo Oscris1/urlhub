@@ -133,7 +133,7 @@ const CreateLink = () => {
           }}
           onPress={fetchCopiedText}
         >
-          <FontAwesome name='paste' size={20} color={theme.textContrast.val} />
+          <FontAwesome name='paste' size={20} color={theme.white.val} />
         </TouchableOpacity>
       </View>
       <View

@@ -57,7 +57,7 @@ const PressableButton: React.FC<PressableButtonProps> = ({
     const color = interpolateColor(
       animation.value,
       [0, 1],
-      [theme.textContrast.val, theme.text.val]
+      [theme.white.val, theme.text.val]
     );
 
     return {
