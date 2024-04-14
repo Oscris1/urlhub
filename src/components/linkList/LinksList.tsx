@@ -4,6 +4,7 @@ import { Link } from '../../model/link';
 import { withObservables } from '@nozbe/watermelondb/react';
 import { Q } from '@nozbe/watermelondb';
 import EnhancedLinkItem from './LinkItem';
+import { FlashList } from '@shopify/flash-list';
 
 interface LinkListProps {
   links: Link[];
@@ -16,8 +17,9 @@ interface EnchancedLinkListProps {
 
 const LinksList: React.FC<LinkListProps> = ({ links }) => {
   return (
-    <FlatList
-      style={{ paddingHorizontal: 8 }}
+    <FlashList
+      contentContainerStyle={{ paddingHorizontal: 8 }}
+      estimatedItemSize={75}
       data={links}
       renderItem={({ item, index }) => (
         <EnhancedLinkItem link={item} index={index} />
