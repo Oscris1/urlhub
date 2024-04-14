@@ -6,13 +6,13 @@ import { Stack, useLocalSearchParams } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import SwapToRemove from '@/components/createEditDelete/SwapToRemove';
 import { useTranslation } from 'react-i18next';
-import { useColorScheme } from 'react-native';
+import { useThemeStore } from '@/stores/themeStore';
 
 const Add = () => {
+  const visibleTheme = useThemeStore((state) => state.visibleTheme);
   const { id }: { id: string } = useLocalSearchParams(); // string | string[] by default
   const { t } = useTranslation();
   const theme = useTheme();
-  const colorScheme = useColorScheme();
   return (
     <>
       <Stack.Screen
@@ -50,7 +50,7 @@ const Add = () => {
           </View>
         )}
       </View>
-      <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
+      <StatusBar style={visibleTheme === 'dark' ? 'light' : 'dark'} />
     </>
   );
 };

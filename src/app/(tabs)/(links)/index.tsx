@@ -5,19 +5,17 @@ import { useDatabase } from '@nozbe/watermelondb/hooks';
 import EnchancedLinksList from '@/components/linkList';
 import { View, YStack, useTheme } from 'tamagui';
 import { SelectCategory } from '@/components/SelectCategory';
-
 import { LinearGradient } from '@tamagui/linear-gradient';
-
 import { Stack } from 'expo-router';
 import { ShimmerTextEffect } from '@/components/common';
-import { useColorScheme } from 'react-native';
+import { useThemeStore } from '@/stores/themeStore';
 
 const Index = () => {
   const database = useDatabase();
   const insets = useSafeAreaInsets();
   const theme = useTheme();
-  const colorScheme = useColorScheme();
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const visibleTheme = useThemeStore((state) => state.visibleTheme);
 
   return (
     <View backgroundColor='$bg' width='100%' height='100%'>
@@ -77,7 +75,7 @@ const Index = () => {
           selectedCategory={selectedCategory}
         />
       </View>
-      <StatusBar style={colorScheme === 'dark' ? 'dark' : 'light'} />
+      <StatusBar style={visibleTheme === 'dark' ? 'dark' : 'light'} />
     </View>
   );
 };

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, YStack } from 'tamagui';
 import { useTranslation } from 'react-i18next';
-import { storage } from '@/translations';
 import { PressableButton } from '@/components/common';
 import Toast from 'react-native-toast-message';
 import { useSharedValue } from 'react-native-reanimated';
 
 import { SelectItem, SelectItemDisabled } from './SelectItem';
+import { storage } from '@/stores';
 
 export const SelectLanguage = () => {
   const { t, i18n } = useTranslation();

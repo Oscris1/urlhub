@@ -7,12 +7,12 @@ import { Stack } from 'expo-router';
 import { ShimmerTextEffect } from '@/components/common';
 import SelectLanguage from '@/components/settings/SelectLanguage';
 import SelectTheme from '@/components/settings/SelectTheme';
-import { useColorScheme } from 'react-native';
+import { useThemeStore } from '@/stores/themeStore';
 
 const Settings = () => {
   const insets = useSafeAreaInsets();
   const theme = useTheme();
-  const colorScheme = useColorScheme();
+  const visibleTheme = useThemeStore((state) => state.visibleTheme);
 
   return (
     <View backgroundColor='$bg' width='100%' height='100%'>
@@ -57,7 +57,7 @@ const Settings = () => {
           <SelectTheme />
         </View>
       </View>
-      <StatusBar style={colorScheme === 'dark' ? 'dark' : 'light'} />
+      <StatusBar style={visibleTheme === 'dark' ? 'dark' : 'light'} />
     </View>
   );
 };

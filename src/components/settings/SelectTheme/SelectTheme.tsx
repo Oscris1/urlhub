@@ -5,14 +5,18 @@ import { PressableButton } from '@/components/common';
 import Toast from 'react-native-toast-message';
 import { useSharedValue } from 'react-native-reanimated';
 import { Appearance } from 'react-native';
-import { SelectItem } from '../SelectLanguage/SelectItem';
+import { SelectItem, SelectItemDisabled } from '../SelectLanguage/SelectItem';
+import { useThemeStore } from '@/stores/themeStore';
 
 export const SelectTheme = () => {
   const { t } = useTranslation();
+  const setTheme = useThemeStore((state) => state.changeTheme);
+  const theme = useThemeStore((state) => state.themeKey);
 
   const [isLoading, setIsLoading] = useState(false);
-  const colorScheme = Appearance.getColorScheme();
-  const sharedSelectedTheme = useSharedValue<string>(colorScheme || 'system');
+  const sharedSelectedTheme = useSharedValue<'dark' | 'light' | 'system'>(
+    theme
+  );
 
   const themes = [
     { id: 'system', displayName: t('system') },
@@ -23,15 +27,15 @@ export const SelectTheme = () => {
   const wait = async (ms: number) =>
     new Promise((resolve) => setTimeout(resolve, ms));
 
-  const changeLanguage = async () => {
-    await wait(16);
+  const changeTheme = async () => {
     setIsLoading(true);
+    await wait(16);
+    setTheme(sharedSelectedTheme.value);
+
     if (sharedSelectedTheme.value === 'system') {
       Appearance.setColorScheme(null);
-    } else {
-      Appearance.setColorScheme(sharedSelectedTheme.value as 'dark' | 'light');
     }
-    await wait(16);
+
     Toast.show({
       type: 'success',
       text1: t('theme_changed'),
@@ -46,10 +50,20 @@ export const SelectTheme = () => {
       <YStack>
         {themes.map((theme) => (
           <View key={theme.id}>
-            <SelectItem item={theme} sharedSelectedItem={sharedSelectedTheme} />
+            {!isLoading ? (
+              <SelectItem
+                item={theme}
+                sharedSelectedItem={sharedSelectedTheme}
+              />
+            ) : (
+              <SelectItemDisabled
+                item={theme}
+                sharedSelectedItem={sharedSelectedTheme}
+              />
+            )}
           </View>
         ))}
-        <PressableButton isLoading={isLoading} onPress={changeLanguage} />
+        <PressableButton isLoading={isLoading} onPress={changeTheme} />
       </YStack>
     </View>
   );

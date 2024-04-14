@@ -4,12 +4,11 @@ import {
   ThemeProvider,
 } from '@react-navigation/native';
 import { SplashScreen, Stack } from 'expo-router';
-import { useColorScheme } from 'react-native';
+import { Appearance, ColorSchemeName } from 'react-native';
 import { TamaguiProvider } from 'tamagui';
 import { DatabaseProvider } from '@nozbe/watermelondb/react';
 import { database } from '@/model';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-
 import { config } from '../../tamagui.config';
 import { useFonts } from 'expo-font';
 import { useEffect } from 'react';
@@ -17,6 +16,7 @@ import Toast from 'react-native-toast-message';
 import { toastConfig } from 'toast.config';
 import { initializeI18n } from '@/translations';
 import '../../tamagui-web.css';
+import { useThemeStore } from '@/stores/themeStore';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -32,6 +32,10 @@ export const unstable_settings = {
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
+  const updateThemeViaSubscription = useThemeStore(
+    (state) => state.updateThemeViaSubscription
+  );
+  const themeKey = useThemeStore((state) => state.themeKey);
   const [interLoaded, interError] = useFonts({
     Inter: require('@tamagui/font-inter/otf/Inter-Medium.otf'),
     InterBold: require('@tamagui/font-inter/otf/Inter-Bold.otf'),
@@ -39,6 +43,24 @@ export default function RootLayout() {
 
   useEffect(() => {
     initializeI18n();
+  }, []);
+
+  useEffect(() => {
+    initializeI18n();
+  }, []);
+
+  useEffect(() => {
+    const handleChange = ({
+      colorScheme,
+    }: {
+      colorScheme: ColorSchemeName;
+    }) => {
+      if (themeKey === 'system') {
+        updateThemeViaSubscription(colorScheme);
+      }
+    };
+    const subscription = Appearance.addChangeListener(handleChange);
+    return () => subscription.remove();
   }, []);
 
   useEffect(() => {
@@ -56,11 +78,11 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
-  const colorScheme = useColorScheme();
+  const visibleTheme = useThemeStore((state) => state.visibleTheme);
 
   return (
-    <TamaguiProvider config={config} defaultTheme={colorScheme as any}>
-      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+    <TamaguiProvider config={config} defaultTheme={visibleTheme as any}>
+      <ThemeProvider value={visibleTheme === 'dark' ? DarkTheme : DefaultTheme}>
         <DatabaseProvider database={database}>
           <GestureHandlerRootView style={{ flex: 1 }}>
             <Stack>

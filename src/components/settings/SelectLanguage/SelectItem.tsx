@@ -9,8 +9,9 @@ import {
   withSequence,
   withTiming,
 } from 'react-native-reanimated';
-import { ActivityIndicator, Appearance } from 'react-native';
+import { ActivityIndicator } from 'react-native';
 import { AnimatedView, RadioOuter } from '@/components/common';
+import { useThemeStore } from '@/stores/themeStore';
 
 interface ItemSelectItemProps {
   item: {
@@ -26,7 +27,7 @@ export const SelectItem: React.FC<ItemSelectItemProps> = ({
 }) => {
   const fillingSize = useSharedValue(16);
   const theme = useTheme();
-  const colorScheme = Appearance.getColorScheme();
+  const visibleTheme = useThemeStore((state) => state.visibleTheme);
 
   const animatedStyle = (id: string) =>
     useAnimatedStyle(() => {
@@ -36,7 +37,7 @@ export const SelectItem: React.FC<ItemSelectItemProps> = ({
         borderRadius: fillingSize.value / 2,
         backgroundColor: theme.primary.val,
       };
-    }, [fillingSize, colorScheme]);
+    }, [fillingSize, visibleTheme]);
 
   const tap = (id: string) =>
     Gesture.Tap()
