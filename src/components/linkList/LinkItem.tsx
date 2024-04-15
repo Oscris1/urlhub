@@ -78,7 +78,7 @@ const LinkItem: React.FC<LinkItemProps> = ({ link, index, category }) => {
       borderRadius={10}
     >
       <Pressable style={{ flex: 1 }} onPress={() => openLink(link.url)}>
-        <YStack>
+        <YStack maxWidth='90%'>
           <Text color='$text' fontWeight='500' numberOfLines={1}>
             {!!link.name ? link.name : link.url}
           </Text>

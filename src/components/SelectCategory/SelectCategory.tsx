@@ -68,7 +68,11 @@ export const SelectCategory = ({
           )
         }
       >
-        <Select.Value color='$black' placeholder={t('select_category')}>
+        <Select.Value
+          maxWidth='90%'
+          color='$black'
+          placeholder={t('select_category')}
+        >
           {!!categoryName
             ? categoryName
             : !selectedCategory

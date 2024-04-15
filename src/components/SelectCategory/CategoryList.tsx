@@ -54,7 +54,9 @@ const CategoryList: React.FC<CategoryListProps> = ({
                 borderBlockColor='$primary'
                 borderBottomWidth={0.2}
               >
-                <Select.ItemText color='$primary'>{item.name}</Select.ItemText>
+                <Select.ItemText maxWidth='90%' color='$primary'>
+                  {item.name}
+                </Select.ItemText>
                 <Select.ItemIndicator marginLeft='auto'>
                   <Entypo name='check' size={24} color={theme.primary.val} />
                 </Select.ItemIndicator>
