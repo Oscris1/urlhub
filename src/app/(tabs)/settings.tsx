@@ -1,16 +1,15 @@
 import React from 'react';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
-import { Spacer, View, useTheme } from 'tamagui';
-import { LinearGradient } from '@tamagui/linear-gradient';
+import { Spacer, View } from 'tamagui';
 import { Stack } from 'expo-router';
-import { Logo } from '@/components/common';
+import { AnimatedHeader } from '@/components/common';
 import SelectLanguage from '@/components/settings/SelectLanguage';
 import SelectTheme from '@/components/settings/SelectTheme';
 import { useThemeStore } from '@/stores/themeStore';
 
+const MARGIN_TOP_SETTINGS_VIEW = -40;
+
 const Settings = () => {
-  const insets = useSafeAreaInsets();
   const visibleTheme = useThemeStore((state) => state.visibleTheme);
 
   return (
@@ -20,25 +19,11 @@ const Settings = () => {
           headerShown: false,
         }}
       />
-      <View h='18%'>
-        <LinearGradient
-          colors={['$gradientAdditional', '$primary']}
-          start={{ x: 1, y: 1 }}
-          end={{ x: 0, y: 0 }}
-          width='100%'
-          h='100%'
-          paddingTop={insets.top}
-          alignItems='center'
-          justifyContent='center'
-          paddingBottom={45}
-        >
-          <Logo />
-        </LinearGradient>
-      </View>
+      <AnimatedHeader savePaddingBottom={-MARGIN_TOP_SETTINGS_VIEW} />
       <View
         borderTopStartRadius={25}
         borderTopEndRadius={25}
-        marginTop={-40}
+        marginTop={MARGIN_TOP_SETTINGS_VIEW}
         backgroundColor='$bg'
         flex={1}
         shadowColor='$black'

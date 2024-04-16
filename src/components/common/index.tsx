@@ -1,4 +1,5 @@
 import { AnimatedView, AnimatedText } from './AnimatedComponents';
+import AnimatedHeader from './AnimatedHeader';
 import Logo from './Logo';
 import PressableButton from './PressableButton';
 import SaveButton from './SaveButton';
@@ -13,4 +14,5 @@ export {
   ShimmerTextEffect,
   RadioOuter,
   Logo,
+  AnimatedHeader,
 };

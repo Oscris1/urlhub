@@ -1,60 +1,26 @@
 import React, { useState } from 'react';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { useDatabase } from '@nozbe/watermelondb/hooks';
 import EnchancedLinksList from '@/components/linkList';
 import { View, YStack } from 'tamagui';
 import { SelectCategory } from '@/components/SelectCategory';
-import { LinearGradient } from '@tamagui/linear-gradient';
 import { Stack } from 'expo-router';
 import { useThemeStore } from '@/stores/themeStore';
-import { AnimatedView, Logo } from '@/components/common';
-import {
-  Extrapolation,
-  interpolate,
-  useAnimatedStyle,
-  useSharedValue,
-} from 'react-native-reanimated';
+import { AnimatedHeader } from '@/components/common';
+import { useSharedValue } from 'react-native-reanimated';
 
-const HEADER_HIGHT = 250;
 const MARGIN_TOP_LIST_VIEW = -40;
 const MARGIN_TOP_SELECT = -30;
-const PADDING = (MARGIN_TOP_LIST_VIEW + MARGIN_TOP_SELECT) * -1;
+const ADDITIONAL_PADDING_OVER_SELECT = 5;
+const PADDING =
+  -1 * (MARGIN_TOP_LIST_VIEW + MARGIN_TOP_SELECT) +
+  ADDITIONAL_PADDING_OVER_SELECT;
 
 const Index = () => {
   const database = useDatabase();
-  const insets = useSafeAreaInsets();
   const [selectedCategory, setSelectedCategory] = useState('all');
   const visibleTheme = useThemeStore((state) => state.visibleTheme);
   const yPosition = useSharedValue(0);
-
-  const rIconStyle = useAnimatedStyle(() => {
-    const value = interpolate(
-      yPosition.value,
-      [0, 150],
-      [2, 1],
-      Extrapolation.CLAMP
-    );
-    return {
-      transform: [
-        {
-          scale: value,
-        },
-      ],
-    };
-  });
-
-  const rGradientStyle = useAnimatedStyle(() => {
-    const value = interpolate(
-      yPosition.value,
-      [0, 150],
-      [0, 80],
-      Extrapolation.CLAMP
-    );
-    return {
-      height: HEADER_HIGHT - value,
-    };
-  });
 
   return (
     <View backgroundColor='$bg' width='100%' height='100%'>
@@ -63,23 +29,7 @@ const Index = () => {
           headerShown: false,
         }}
       />
-      <AnimatedView style={rGradientStyle}>
-        <LinearGradient
-          colors={['$gradientAdditional', '$primary']}
-          start={{ x: 1, y: 1 }}
-          end={{ x: 0, y: 0 }}
-          width='100%'
-          h='100%'
-          paddingTop={insets.top}
-          alignItems='center'
-          justifyContent='center'
-          paddingBottom={PADDING}
-        >
-          <AnimatedView style={rIconStyle}>
-            <Logo />
-          </AnimatedView>
-        </LinearGradient>
-      </AnimatedView>
+      <AnimatedHeader yPosition={yPosition} savePaddingBottom={PADDING} />
       <View
         borderTopStartRadius={25}
         borderTopEndRadius={25}
