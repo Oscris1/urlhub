@@ -24,11 +24,6 @@ const OptionButton: React.FC<OptionButtonProps> = ({
         justifyContent='center'
         alignItems='center'
         height='100%'
-        shadowColor='$black'
-        shadowOffset={{ width: 0, height: 2 }}
-        shadowOpacity={0.25}
-        shadowRadius={3.84}
-        elevationAndroid={5}
       >
         {iconComponent}
       </LinearGradient>

@@ -34,5 +34,6 @@
   "dark": "Dark",
   "light": "Light",
   "theme_changed": "Theme changed",
-  "choose_theme": "Choose theme:"
+  "choose_theme": "Choose theme:",
+  "copied_to_clipboard": "Copied to clipboard"
 }

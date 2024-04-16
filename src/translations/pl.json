@@ -34,5 +34,6 @@
   "dark": "Ciemny",
   "light": "Jasny",
   "theme_changed": "Zmieniono motyw",
-  "choose_theme": "Wybierz motyw:"
+  "choose_theme": "Wybierz motyw:",
+  "copied_to_clipboard": "Skopiowano do schowka"
 }
