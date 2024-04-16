@@ -4,14 +4,13 @@ import { StatusBar } from 'expo-status-bar';
 import { Spacer, View, useTheme } from 'tamagui';
 import { LinearGradient } from '@tamagui/linear-gradient';
 import { Stack } from 'expo-router';
-import { ShimmerTextEffect } from '@/components/common';
+import { Logo } from '@/components/common';
 import SelectLanguage from '@/components/settings/SelectLanguage';
 import SelectTheme from '@/components/settings/SelectTheme';
 import { useThemeStore } from '@/stores/themeStore';
 
 const Settings = () => {
   const insets = useSafeAreaInsets();
-  const theme = useTheme();
   const visibleTheme = useThemeStore((state) => state.visibleTheme);
 
   return (
@@ -21,24 +20,21 @@ const Settings = () => {
           headerShown: false,
         }}
       />
-      <LinearGradient
-        colors={['$gradientAdditional', '$primary']}
-        start={{ x: 1, y: 1 }}
-        end={{ x: 0, y: 0 }}
-        width='100%'
-        h='18%'
-        paddingTop={insets.top}
-        alignItems='center'
-      >
-        <ShimmerTextEffect
-          text='Url hub'
-          startColor={theme.textContrast.val}
-          endColor={theme.primary.val}
-          delay={8000}
-          isInfinity
-        />
-      </LinearGradient>
-
+      <View h='18%'>
+        <LinearGradient
+          colors={['$gradientAdditional', '$primary']}
+          start={{ x: 1, y: 1 }}
+          end={{ x: 0, y: 0 }}
+          width='100%'
+          h='100%'
+          paddingTop={insets.top}
+          alignItems='center'
+          justifyContent='center'
+          paddingBottom={45}
+        >
+          <Logo />
+        </LinearGradient>
+      </View>
       <View
         borderTopStartRadius={25}
         borderTopEndRadius={25}

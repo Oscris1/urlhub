@@ -3,17 +3,16 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { useDatabase } from '@nozbe/watermelondb/hooks';
 import EnchancedLinksList from '@/components/linkList';
-import { View, YStack, useTheme } from 'tamagui';
+import { View, YStack, useTheme, Image } from 'tamagui';
 import { SelectCategory } from '@/components/SelectCategory';
 import { LinearGradient } from '@tamagui/linear-gradient';
 import { Stack } from 'expo-router';
-import { ShimmerTextEffect } from '@/components/common';
 import { useThemeStore } from '@/stores/themeStore';
+import { Logo } from '@/components/common';
 
 const Index = () => {
   const database = useDatabase();
   const insets = useSafeAreaInsets();
-  const theme = useTheme();
   const [selectedCategory, setSelectedCategory] = useState('all');
   const visibleTheme = useThemeStore((state) => state.visibleTheme);
 
@@ -29,17 +28,11 @@ const Index = () => {
         start={{ x: 1, y: 1 }}
         end={{ x: 0, y: 0 }}
         width='100%'
-        h='18%'
+        h='22%'
         paddingTop={insets.top}
         alignItems='center'
       >
-        <ShimmerTextEffect
-          text='Url hub'
-          startColor={theme.textContrast.val}
-          endColor={theme.primary.val}
-          delay={8000}
-          isInfinity
-        />
+        <Logo />
       </LinearGradient>
 
       <View

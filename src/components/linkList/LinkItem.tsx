@@ -9,8 +9,10 @@ import { router } from 'expo-router';
 import Category from '@/model/category';
 import OptionButton from './OptionButton';
 import { useTranslation } from 'react-i18next';
+import { t as translate } from 'i18next';
 import { AnimatedView } from '../common';
 import { SlideInLeft } from 'react-native-reanimated';
+import Toast from 'react-native-toast-message';
 
 const addHttps = (url: string) => {
   // Sprawdza, czy URL zaczyna się od "http://" lub "https://", jeśli nie - dodaje "https://"
@@ -22,6 +24,11 @@ const addHttps = (url: string) => {
 
 const copyToClipboard = async (text: string) => {
   await Clipboard.setStringAsync(text);
+  Toast.show({
+    type: 'success',
+    text1: translate('copied_to_clipboard'),
+    visibilityTime: 1500,
+  });
 };
 
 const openLink = async (url: string) => {
