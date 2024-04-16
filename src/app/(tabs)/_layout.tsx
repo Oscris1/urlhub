@@ -52,6 +52,11 @@ export default function TabLayout() {
       await database.get<LinkModel>('links').create((link) => {
         link.url = text;
       });
+      Toast.show({
+        type: 'success',
+        text1: t('saved'),
+        visibilityTime: 1500,
+      });
     });
   };
 
