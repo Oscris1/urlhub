@@ -1,29 +1,42 @@
-import { FlatList } from 'react-native';
 import { Database } from '@nozbe/watermelondb';
 import { Link } from '../../model/link';
 import { withObservables } from '@nozbe/watermelondb/react';
 import { Q } from '@nozbe/watermelondb';
 import EnhancedLinkItem from './LinkItem';
 import { FlashList } from '@shopify/flash-list';
+import Animated, {
+  SharedValue,
+  useAnimatedScrollHandler,
+} from 'react-native-reanimated';
+
+const AnimatedFlashList = Animated.createAnimatedComponent(FlashList<Link>);
 
 interface LinkListProps {
   links: Link[];
+  yPosition: SharedValue<number>;
 }
 
 interface EnchancedLinkListProps {
   database: Database;
   selectedCategory: string;
+  yPosition: SharedValue<number>;
 }
 
-const LinksList: React.FC<LinkListProps> = ({ links }) => {
+const LinksList: React.FC<LinkListProps> = ({ links, yPosition }) => {
+  const scrollHandler = useAnimatedScrollHandler((event) => {
+    yPosition.value = event.contentOffset.y;
+  });
+
   return (
-    <FlashList
+    <AnimatedFlashList
       contentContainerStyle={{ paddingHorizontal: 8 }}
       estimatedItemSize={75}
+      onScroll={scrollHandler}
       data={links}
       renderItem={({ item, index }) => (
         <EnhancedLinkItem link={item} index={index} />
       )}
+      keyExtractor={(item) => item.id}
     />
   );
 };

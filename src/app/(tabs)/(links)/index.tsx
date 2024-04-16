@@ -3,18 +3,58 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { useDatabase } from '@nozbe/watermelondb/hooks';
 import EnchancedLinksList from '@/components/linkList';
-import { View, YStack, useTheme, Image } from 'tamagui';
+import { View, YStack } from 'tamagui';
 import { SelectCategory } from '@/components/SelectCategory';
 import { LinearGradient } from '@tamagui/linear-gradient';
 import { Stack } from 'expo-router';
 import { useThemeStore } from '@/stores/themeStore';
-import { Logo } from '@/components/common';
+import { AnimatedView, Logo } from '@/components/common';
+import {
+  Extrapolation,
+  interpolate,
+  useAnimatedStyle,
+  useSharedValue,
+} from 'react-native-reanimated';
+
+const HEADER_HIGHT = 250;
+const MARGIN_TOP_LIST_VIEW = -40;
+const MARGIN_TOP_SELECT = -30;
+const PADDING = (MARGIN_TOP_LIST_VIEW + MARGIN_TOP_SELECT) * -1;
 
 const Index = () => {
   const database = useDatabase();
   const insets = useSafeAreaInsets();
   const [selectedCategory, setSelectedCategory] = useState('all');
   const visibleTheme = useThemeStore((state) => state.visibleTheme);
+  const yPosition = useSharedValue(0);
+
+  const rIconStyle = useAnimatedStyle(() => {
+    const value = interpolate(
+      yPosition.value,
+      [0, 150],
+      [2, 1],
+      Extrapolation.CLAMP
+    );
+    return {
+      transform: [
+        {
+          scale: value,
+        },
+      ],
+    };
+  });
+
+  const rGradientStyle = useAnimatedStyle(() => {
+    const value = interpolate(
+      yPosition.value,
+      [0, 150],
+      [0, 80],
+      Extrapolation.CLAMP
+    );
+    return {
+      height: HEADER_HIGHT - value,
+    };
+  });
 
   return (
     <View backgroundColor='$bg' width='100%' height='100%'>
@@ -23,22 +63,27 @@ const Index = () => {
           headerShown: false,
         }}
       />
-      <LinearGradient
-        colors={['$gradientAdditional', '$primary']}
-        start={{ x: 1, y: 1 }}
-        end={{ x: 0, y: 0 }}
-        width='100%'
-        h='22%'
-        paddingTop={insets.top}
-        alignItems='center'
-      >
-        <Logo />
-      </LinearGradient>
-
+      <AnimatedView style={rGradientStyle}>
+        <LinearGradient
+          colors={['$gradientAdditional', '$primary']}
+          start={{ x: 1, y: 1 }}
+          end={{ x: 0, y: 0 }}
+          width='100%'
+          h='100%'
+          paddingTop={insets.top}
+          alignItems='center'
+          justifyContent='center'
+          paddingBottom={PADDING}
+        >
+          <AnimatedView style={rIconStyle}>
+            <Logo />
+          </AnimatedView>
+        </LinearGradient>
+      </AnimatedView>
       <View
         borderTopStartRadius={25}
         borderTopEndRadius={25}
-        marginTop={-40}
+        marginTop={MARGIN_TOP_LIST_VIEW}
         backgroundColor='$bg'
         flex={1}
         shadowColor='$black'
@@ -52,7 +97,7 @@ const Index = () => {
           justifyContent='center'
           alignItems='center'
           zIndex={2}
-          marginTop={-30}
+          marginTop={MARGIN_TOP_SELECT}
           paddingBottom={40}
         >
           <View width='70%'>
@@ -66,6 +111,7 @@ const Index = () => {
         <EnchancedLinksList
           database={database}
           selectedCategory={selectedCategory}
+          yPosition={yPosition}
         />
       </View>
       <StatusBar style={visibleTheme === 'dark' ? 'dark' : 'light'} />
