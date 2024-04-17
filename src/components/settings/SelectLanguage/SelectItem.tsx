@@ -11,7 +11,7 @@ import {
 } from 'react-native-reanimated';
 import { ActivityIndicator } from 'react-native';
 import { AnimatedView, RadioOuter } from '@/components/common';
-import { useThemeStore } from '@/stores/themeStore';
+import { useGlobalStore } from '@/stores/globalStore';
 
 interface ItemSelectItemProps {
   item: {
@@ -27,7 +27,7 @@ export const SelectItem: React.FC<ItemSelectItemProps> = ({
 }) => {
   const fillingSize = useSharedValue(16);
   const theme = useTheme();
-  const visibleTheme = useThemeStore((state) => state.visibleTheme);
+  const visibleTheme = useGlobalStore((state) => state.visibleTheme);
 
   const animatedStyle = (id: string) =>
     useAnimatedStyle(() => {

@@ -8,12 +8,18 @@ import Animated, {
   SharedValue,
   useAnimatedScrollHandler,
 } from 'react-native-reanimated';
+import { useEffect, useRef } from 'react';
+import { View, Text } from 'tamagui';
+import { PressableButton } from '../common';
+import { router } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 
 const AnimatedFlashList = Animated.createAnimatedComponent(FlashList<Link>);
 
 interface LinkListProps {
   links: Link[];
   yPosition: SharedValue<number>;
+  selectedCategory: string;
 }
 
 interface EnchancedLinkListProps {
@@ -22,13 +28,42 @@ interface EnchancedLinkListProps {
   yPosition: SharedValue<number>;
 }
 
-const LinksList: React.FC<LinkListProps> = ({ links, yPosition }) => {
+const LinksList: React.FC<LinkListProps> = ({
+  links,
+  yPosition,
+  selectedCategory,
+}) => {
+  const listRef = useRef<FlashList<Link>>(null);
+  const prevLinksLength = useRef(links.length);
+  const prevCategory = useRef(selectedCategory);
+
   const scrollHandler = useAnimatedScrollHandler((event) => {
     yPosition.value = event.contentOffset.y;
   });
 
+  useEffect(() => {
+    /// scroll to top if new link was created
+    if (
+      links.length > prevLinksLength.current &&
+      selectedCategory === prevCategory.current
+    ) {
+      listRef.current?.scrollToIndex({ index: 0, animated: true });
+    }
+    prevLinksLength.current = links.length;
+  }, [links]);
+
+  useEffect(() => {
+    // scroll to Top if category is changed
+    if (selectedCategory !== prevCategory.current) {
+      listRef.current?.scrollToIndex({ index: 0, animated: true });
+      prevLinksLength.current = links.length;
+    }
+    prevCategory.current = selectedCategory;
+  }, [selectedCategory]);
+
   return (
     <AnimatedFlashList
+      ref={listRef}
       contentContainerStyle={{ paddingHorizontal: 8 }}
       estimatedItemSize={75}
       onScroll={scrollHandler}
@@ -36,6 +71,7 @@ const LinksList: React.FC<LinkListProps> = ({ links, yPosition }) => {
       renderItem={({ item, index }) => (
         <EnhancedLinkItem link={item} index={index} />
       )}
+      ListEmptyComponent={() => <LinksEmptyComponent />}
       keyExtractor={(item) => item.id}
     />
   );
@@ -75,3 +111,19 @@ const enhance = withObservables<EnchancedLinkListProps, LinkListProps>(
 
 export const EnchancedLinksList: React.FC<EnchancedLinkListProps> =
   enhance(LinksList);
+
+const LinksEmptyComponent = () => {
+  const { t } = useTranslation();
+
+  return (
+    <View width='100%' justifyContent='center' alignItems='center' py={10}>
+      <Text fontWeight='500' fontSize={20} color='$text'>
+        {t('no_links_yet')}
+      </Text>
+      <PressableButton
+        buttonTextReplacment={t('create_link')}
+        onPress={() => router.push('/createEdit')}
+      />
+    </View>
+  );
+};

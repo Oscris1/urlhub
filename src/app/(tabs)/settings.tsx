@@ -5,12 +5,12 @@ import { Stack } from 'expo-router';
 import { AnimatedHeader } from '@/components/common';
 import SelectLanguage from '@/components/settings/SelectLanguage';
 import SelectTheme from '@/components/settings/SelectTheme';
-import { useThemeStore } from '@/stores/themeStore';
+import { useGlobalStore } from '@/stores/globalStore';
 
 const MARGIN_TOP_SETTINGS_VIEW = -40;
 
 const Settings = () => {
-  const visibleTheme = useThemeStore((state) => state.visibleTheme);
+  const visibleTheme = useGlobalStore((state) => state.visibleTheme);
 
   return (
     <View backgroundColor='$bg' width='100%' height='100%'>

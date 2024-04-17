@@ -16,7 +16,7 @@ import Toast from 'react-native-toast-message';
 import { toastConfig } from 'toast.config';
 import { initializeI18n } from '@/translations';
 import '../../tamagui-web.css';
-import { useThemeStore } from '@/stores/themeStore';
+import { useGlobalStore } from '@/stores/globalStore';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -32,10 +32,10 @@ export const unstable_settings = {
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const updateThemeViaSubscription = useThemeStore(
+  const updateThemeViaSubscription = useGlobalStore(
     (state) => state.updateThemeViaSubscription
   );
-  const themeKey = useThemeStore((state) => state.themeKey);
+  const themeKey = useGlobalStore((state) => state.themeKey);
   const [interLoaded, interError] = useFonts({
     Inter: require('@tamagui/font-inter/otf/Inter-Medium.otf'),
     InterBold: require('@tamagui/font-inter/otf/Inter-Bold.otf'),
@@ -78,7 +78,7 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
-  const visibleTheme = useThemeStore((state) => state.visibleTheme);
+  const visibleTheme = useGlobalStore((state) => state.visibleTheme);
 
   return (
     <TamaguiProvider config={config} defaultTheme={visibleTheme as any}>

@@ -5,7 +5,7 @@ import EnchancedLinksList from '@/components/linkList';
 import { View, YStack } from 'tamagui';
 import { SelectCategory } from '@/components/SelectCategory';
 import { Stack } from 'expo-router';
-import { useThemeStore } from '@/stores/themeStore';
+import { useGlobalStore } from '@/stores/globalStore';
 import { AnimatedHeader } from '@/components/common';
 import { useSharedValue } from 'react-native-reanimated';
 
@@ -18,9 +18,12 @@ const PADDING =
 
 const Index = () => {
   const database = useDatabase();
-  const [selectedCategory, setSelectedCategory] = useState('all');
-  const visibleTheme = useThemeStore((state) => state.visibleTheme);
+  const visibleTheme = useGlobalStore((state) => state.visibleTheme);
   const yPosition = useSharedValue(0);
+  const selectedCategory = useGlobalStore((state) => state.selectedCategory);
+  const setSelectedCategory = useGlobalStore(
+    (state) => state.setSelectedCategory
+  );
 
   return (
     <View backgroundColor='$bg' width='100%' height='100%'>

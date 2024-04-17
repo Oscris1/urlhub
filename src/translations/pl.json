@@ -35,5 +35,7 @@
   "light": "Jasny",
   "theme_changed": "Zmieniono motyw",
   "choose_theme": "Wybierz motyw:",
-  "copied_to_clipboard": "Skopiowano do schowka"
+  "copied_to_clipboard": "Skopiowano do schowka",
+  "create_link": "Utwórz link",
+  "no_links_yet": "Nie masz jeszcze linków"
 }

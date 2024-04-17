@@ -35,5 +35,7 @@
   "light": "Light",
   "theme_changed": "Theme changed",
   "choose_theme": "Choose theme:",
-  "copied_to_clipboard": "Copied to clipboard"
+  "copied_to_clipboard": "Copied to clipboard",
+  "create_link": "Create link",
+  "no_links_yet": "No links yet"
 }

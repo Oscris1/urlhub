@@ -1,9 +1,9 @@
 import React from 'react';
 import { Image } from 'tamagui';
-import { useThemeStore } from '@/stores/themeStore';
+import { useGlobalStore } from '@/stores/globalStore';
 
 const Logo = () => {
-  const visibleTheme = useThemeStore((state) => state.visibleTheme);
+  const visibleTheme = useGlobalStore((state) => state.visibleTheme);
   if (visibleTheme === 'light')
     return (
       <Image

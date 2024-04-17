@@ -6,10 +6,10 @@ import { Stack, useLocalSearchParams } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import SwapToRemove from '@/components/createEditDelete/SwapToRemove';
 import { useTranslation } from 'react-i18next';
-import { useThemeStore } from '@/stores/themeStore';
+import { useGlobalStore } from '@/stores/globalStore';
 
 const Add = () => {
-  const visibleTheme = useThemeStore((state) => state.visibleTheme);
+  const visibleTheme = useGlobalStore((state) => state.visibleTheme);
   const { id }: { id: string } = useLocalSearchParams(); // string | string[] by default
   const { t } = useTranslation();
   const theme = useTheme();

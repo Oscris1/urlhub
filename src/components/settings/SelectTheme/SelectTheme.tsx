@@ -6,12 +6,12 @@ import Toast from 'react-native-toast-message';
 import { useSharedValue } from 'react-native-reanimated';
 import { Appearance } from 'react-native';
 import { SelectItem, SelectItemDisabled } from '../SelectLanguage/SelectItem';
-import { useThemeStore } from '@/stores/themeStore';
+import { useGlobalStore } from '@/stores/globalStore';
 
 export const SelectTheme = () => {
   const { t } = useTranslation();
-  const setTheme = useThemeStore((state) => state.changeTheme);
-  const theme = useThemeStore((state) => state.themeKey);
+  const setTheme = useGlobalStore((state) => state.changeTheme);
+  const theme = useGlobalStore((state) => state.themeKey);
 
   const [isLoading, setIsLoading] = useState(false);
   const sharedSelectedTheme = useSharedValue<'dark' | 'light' | 'system'>(

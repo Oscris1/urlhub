@@ -11,6 +11,7 @@ import { SelectCategory } from '@/components/SelectCategory';
 import { router, useLocalSearchParams } from 'expo-router';
 import Toast from 'react-native-toast-message';
 import { useTranslation } from 'react-i18next';
+import { useGlobalStore } from '@/stores/globalStore';
 
 const CreateLink = () => {
   const database = useDatabase();
@@ -20,6 +21,9 @@ const CreateLink = () => {
   const { id }: { id: string } = useLocalSearchParams(); // string | string[] by default
   const { t } = useTranslation();
   const theme = useTheme();
+  const resetLinkListSelectedCategory = useGlobalStore(
+    (state) => state.resetSelectedCategory
+  );
 
   const prepareEdit = async () => {
     if (id) {
@@ -69,6 +73,7 @@ const CreateLink = () => {
             link.url = url;
             setCategory?.(link);
           });
+          resetLinkListSelectedCategory();
         }
       });
       Toast.show({

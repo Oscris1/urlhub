@@ -15,12 +15,14 @@ import { AnimatedText, AnimatedView } from './AnimatedComponents';
 
 interface PressableButtonProps {
   onPress: () => void;
-  isLoading: boolean;
+  isLoading?: boolean;
+  buttonTextReplacment?: string;
 }
 
 const PressableButton: React.FC<PressableButtonProps> = ({
-  isLoading,
+  isLoading = false,
   onPress,
+  buttonTextReplacment,
 }) => {
   const { t } = useTranslation();
   const theme = useTheme();
@@ -83,12 +85,14 @@ const PressableButton: React.FC<PressableButtonProps> = ({
         marginTop={10}
         borderRadius={10}
         padding={4}
+        px={12}
         justifyContent='center'
         alignItems='center'
         style={rStyle}
       >
         <AnimatedText style={rTextStyle}>
-          {t(isLoading ? 'saving' : 'save')}
+          {!buttonTextReplacment && t(isLoading ? 'saving' : 'save')}
+          {!!buttonTextReplacment && buttonTextReplacment}
         </AnimatedText>
       </AnimatedView>
     </Pressable>
