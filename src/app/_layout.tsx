@@ -61,7 +61,7 @@ export default function RootLayout() {
     };
     const subscription = Appearance.addChangeListener(handleChange);
     return () => subscription.remove();
-  }, []);
+  }, [themeKey]);
 
   useEffect(() => {
     if (interLoaded || interError) {
