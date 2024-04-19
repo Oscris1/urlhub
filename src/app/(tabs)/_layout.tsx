@@ -82,7 +82,7 @@ export default function TabLayout() {
           title: 'Linki',
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
-              name={`list-${focused ? 'sharp' : 'outline'}`}
+              name={`home-${focused ? 'sharp' : 'outline'}`}
               size={30}
               color={color}
             />
