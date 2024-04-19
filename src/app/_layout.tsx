@@ -88,7 +88,7 @@ function RootLayoutNav() {
             <Stack>
               <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
             </Stack>
-            <Toast config={toastConfig} position='bottom' />
+            <Toast config={toastConfig} position='bottom' bottomOffset={70} />
           </GestureHandlerRootView>
         </DatabaseProvider>
       </ThemeProvider>
