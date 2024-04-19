@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDatabase } from '@nozbe/watermelondb/hooks';
 import Category from '@/model/category';
-import { View, Text, Input, useTheme } from 'tamagui';
+import { View, Text, Input } from 'tamagui';
 import { SaveButton } from '@/components/common';
 import { useTranslation } from 'react-i18next';
 
@@ -9,7 +9,6 @@ const CreateCategory = () => {
   const database = useDatabase();
   const [categoryName, setCategoryName] = useState<string>('');
   const { t } = useTranslation();
-  const theme = useTheme();
 
   const createNewCategory = async (
     animation: () => void,

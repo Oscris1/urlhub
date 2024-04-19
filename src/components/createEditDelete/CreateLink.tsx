@@ -28,6 +28,9 @@ const CreateLink = () => {
   const resetLinkListSelectedCategory = useGlobalStore(
     (state) => state.resetSelectedCategory
   );
+  const setLinkListSelectedCategory = useGlobalStore(
+    (state) => state.setSelectedCategory
+  );
 
   const prepareEdit = async () => {
     if (id) {
@@ -43,7 +46,7 @@ const CreateLink = () => {
     prepareEdit();
   }, [id]);
 
-  const createNewLink = async (
+  const createOrEditLink = async (
     animation: () => void,
     endAnimation: () => void
   ) => {
@@ -54,16 +57,20 @@ const CreateLink = () => {
     try {
       await database.write(async () => {
         let setCategory: (link: Link) => void;
+        let categoryId: string | undefined;
 
         if (selectedCategory) {
+          // prepare category
           const category = await database.collections
             .get<Category>('categories')
             .find(selectedCategory);
 
           setCategory = (link: Link) => link.category.set(category);
+          categoryId = category?.id;
         }
 
         if (id) {
+          // edit link
           const link = await database.get<Link>('links').find(id);
           await link.update(() => {
             link.name = linkName;
@@ -72,12 +79,17 @@ const CreateLink = () => {
           });
           router.back();
         } else {
+          // create new Link
           await database.get<Link>('links').create((link) => {
             link.name = linkName;
             link.url = url;
             setCategory?.(link);
           });
-          resetLinkListSelectedCategory();
+          if (categoryId) {
+            setLinkListSelectedCategory(categoryId);
+          } else {
+            resetLinkListSelectedCategory();
+          }
         }
       });
       Toast.show({
@@ -168,7 +180,7 @@ const CreateLink = () => {
         borderRadius={6}
       />
       <View marginTop={10} paddingBottom={30}>
-        <SaveButton onPress={createNewLink} disabled={!url} />
+        <SaveButton onPress={createOrEditLink} disabled={!url} />
       </View>
     </View>
   );
