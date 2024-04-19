@@ -57,20 +57,19 @@ const SwapToRemove: React.FC<SwapToRemoveProps> = ({ id }) => {
       scrollX.value = clamp(
         scrollX.value + event.changeX,
         SWIPABLE_CLAMP_LEFT_VALUE,
-        TRIGGER_DELETE_MOMENT
+        TRIGGER_DELETE_MOMENT + 30
       );
-      if (scrollX.value === TRIGGER_DELETE_MOMENT) {
+      if (scrollX.value >= TRIGGER_DELETE_MOMENT) {
         text.value = drop;
 
         release.value = true;
       } else if (scrollX.value < TRIGGER_DELETE_MOMENT && !!release.value) {
         text.value = slide;
         release.value = false;
-      } else {
       }
     })
     .onEnd(() => {
-      if (scrollX.value === TRIGGER_DELETE_MOMENT) {
+      if (scrollX.value > TRIGGER_DELETE_MOMENT) {
         console.log('usuwanie');
         runOnJS(handleRemove)();
       } else {
@@ -93,7 +92,7 @@ const SwapToRemove: React.FC<SwapToRemoveProps> = ({ id }) => {
       <View
         bg='$danger'
         width='90%'
-        height={40}
+        height={45}
         marginTop={10}
         justifyContent='center'
         overflow='hidden'
@@ -102,7 +101,7 @@ const SwapToRemove: React.FC<SwapToRemoveProps> = ({ id }) => {
         <GestureDetector gesture={pan}>
           <AnimatedView
             w='100%'
-            h={40}
+            h={45}
             borderRadius={10}
             justifyContent='center'
             alignItems='center'
@@ -121,5 +120,5 @@ const SwapToRemove: React.FC<SwapToRemoveProps> = ({ id }) => {
 export default SwapToRemove;
 
 const styles = StyleSheet.create({
-  text: { color: 'white', fontSize: 16, fontWeight: '500' },
+  text: { color: 'white', fontSize: 18, fontWeight: '500' },
 });
