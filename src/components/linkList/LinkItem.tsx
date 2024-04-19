@@ -106,9 +106,7 @@ const LinkItem: React.FC<LinkItemProps> = ({ link, index, category }) => {
       />
       <OptionButton
         iconComponent={<Feather name='share-2' size={20} color={iconColor} />}
-        onPress={() =>
-          shareLink(link.url, t('share_link'), t('check_this_page'))
-        }
+        onPress={() => shareLink(link.url, t('share_link'), '')}
       />
       <OptionButton
         iconComponent={<Entypo name='edit' size={20} color={iconColor} />}
