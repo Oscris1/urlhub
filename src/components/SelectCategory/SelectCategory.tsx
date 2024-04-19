@@ -1,4 +1,4 @@
-import { ActivityIndicator, Keyboard } from 'react-native';
+import { ActivityIndicator, BackHandler, Keyboard } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { Adapt, Select, Sheet, useTheme } from 'tamagui';
 import type { SelectProps, SizeTokens } from 'tamagui';
@@ -39,6 +39,23 @@ export const SelectCategory = ({
       }
     }
   }, [selectedCategory, data]);
+
+  useEffect(() => {
+    const backAction = () => {
+      if (isOpen) {
+        setIsOpen(false);
+        return true;
+      }
+      return false;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction
+    );
+
+    return () => backHandler.remove();
+  }, [isOpen]);
 
   return (
     <Select

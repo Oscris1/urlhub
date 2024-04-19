@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { useDatabase } from '@nozbe/watermelondb/hooks';
 import EnchancedLinksList from '@/components/linkList';
 import { View, YStack } from 'tamagui';
 import { SelectCategory } from '@/components/SelectCategory';
-import { Stack } from 'expo-router';
+import { Stack, useSegments } from 'expo-router';
 import { useGlobalStore } from '@/stores/globalStore';
 import { AnimatedHeader } from '@/components/common';
 import { useSharedValue } from 'react-native-reanimated';
+import { Alert, BackHandler } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 const MARGIN_TOP_LIST_VIEW = -40;
 const MARGIN_TOP_SELECT = -30;
@@ -18,12 +20,38 @@ const PADDING =
 
 const Index = () => {
   const database = useDatabase();
+  const segments = useSegments();
+  const { t } = useTranslation();
   const visibleTheme = useGlobalStore((state) => state.visibleTheme);
   const yPosition = useSharedValue(0);
   const selectedCategory = useGlobalStore((state) => state.selectedCategory);
   const setSelectedCategory = useGlobalStore(
     (state) => state.setSelectedCategory
   );
+
+  useEffect(() => {
+    const backAction = () => {
+      if (segments[1] === '(links)') {
+        Alert.alert(t('closing_app'), t('confirm_exit'), [
+          {
+            text: t('no'),
+            onPress: () => null,
+            style: 'cancel',
+          },
+          { text: t('yes'), onPress: () => BackHandler.exitApp() },
+        ]);
+        return true;
+      }
+      return false;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction
+    );
+
+    return () => backHandler.remove();
+  }, [segments]);
 
   return (
     <View backgroundColor='$bg' width='100%' height='100%'>
