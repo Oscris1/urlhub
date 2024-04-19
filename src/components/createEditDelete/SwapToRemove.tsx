@@ -15,10 +15,15 @@ import { StyleSheet } from 'react-native';
 import Toast from 'react-native-toast-message';
 import { useTranslation } from 'react-i18next';
 import { AnimatedView } from '@/components/common';
+import { Dimensions } from 'react-native';
 
 interface SwapToRemoveProps {
   id: string;
 }
+
+const { width } = Dimensions.get('window');
+const TRIGGER_DELETE_MOMENT = width * 0.2;
+const SWIPABLE_CLAMP_LEFT_VALUE = -(width / 2);
 
 const SwapToRemove: React.FC<SwapToRemoveProps> = ({ id }) => {
   const { t } = useTranslation();
@@ -49,19 +54,23 @@ const SwapToRemove: React.FC<SwapToRemoveProps> = ({ id }) => {
       scrollX.value = 0;
     })
     .onChange((event) => {
-      scrollX.value = clamp(scrollX.value + event.changeX, -150, 150);
-      if (scrollX.value >= 130) {
+      scrollX.value = clamp(
+        scrollX.value + event.changeX,
+        SWIPABLE_CLAMP_LEFT_VALUE,
+        TRIGGER_DELETE_MOMENT
+      );
+      if (scrollX.value === TRIGGER_DELETE_MOMENT) {
         text.value = drop;
 
         release.value = true;
-      } else if (scrollX.value < 130 && !!release.value) {
+      } else if (scrollX.value < TRIGGER_DELETE_MOMENT && !!release.value) {
         text.value = slide;
         release.value = false;
       } else {
       }
     })
     .onEnd(() => {
-      if (scrollX.value > 130) {
+      if (scrollX.value === TRIGGER_DELETE_MOMENT) {
         console.log('usuwanie');
         runOnJS(handleRemove)();
       } else {
