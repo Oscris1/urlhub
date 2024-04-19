@@ -15,10 +15,14 @@ import { useGlobalStore } from '@/stores/globalStore';
 
 const CreateLink = () => {
   const database = useDatabase();
+  const { id, passedCategory }: { id: string; passedCategory?: string } =
+    useLocalSearchParams(); // string | string[] by default
   const [linkName, setLinkName] = useState<string>('');
   const [url, setUrl] = useState<string>('');
-  const [selectedCategory, setSelectedCategory] = useState<string>('');
-  const { id }: { id: string } = useLocalSearchParams(); // string | string[] by default
+  const [selectedCategory, setSelectedCategory] = useState<string>(
+    passedCategory || ''
+  );
+
   const { t } = useTranslation();
   const theme = useTheme();
   const resetLinkListSelectedCategory = useGlobalStore(

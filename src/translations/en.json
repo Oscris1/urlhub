@@ -38,6 +38,7 @@
   "copied_to_clipboard": "Copied to clipboard",
   "create_link": "Create link",
   "no_links_yet": "No links yet",
+  "no_links_in_category": "No links in this category yet",
   "closing_app": "Closing app",
   "confirm_exit": "Do you want to exit the app?"
 }

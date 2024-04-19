@@ -71,7 +71,9 @@ const LinksList: React.FC<LinkListProps> = ({
       renderItem={({ item, index }) => (
         <EnhancedLinkItem link={item} index={index} />
       )}
-      ListEmptyComponent={() => <LinksEmptyComponent />}
+      ListEmptyComponent={() => (
+        <LinksEmptyComponent selectedCategory={selectedCategory} />
+      )}
       keyExtractor={(item) => item.id}
     />
   );
@@ -112,17 +114,32 @@ const enhance = withObservables<EnchancedLinkListProps, LinkListProps>(
 export const EnchancedLinksList: React.FC<EnchancedLinkListProps> =
   enhance(LinksList);
 
-const LinksEmptyComponent = () => {
-  const { t } = useTranslation();
+interface LinksEmptyComponentProps {
+  selectedCategory: string;
+}
 
+const LinksEmptyComponent: React.FC<LinksEmptyComponentProps> = ({
+  selectedCategory,
+}) => {
+  const { t } = useTranslation();
+  const isUserCategory = !(
+    selectedCategory === 'all' || selectedCategory === 'none'
+  );
   return (
     <View width='100%' justifyContent='center' alignItems='center' py={10}>
-      <Text fontWeight='500' fontSize={20} color='$text'>
-        {t('no_links_yet')}
+      <Text fontWeight='500' fontSize={20} color='$text' textAlign='center'>
+        {isUserCategory ? t('no_links_in_category') : t('no_links_yet')}
       </Text>
       <PressableButton
         buttonTextReplacment={t('create_link')}
-        onPress={() => router.push('/createEdit')}
+        onPress={() =>
+          router.push(
+            // @ts-ignore broken types
+            `/createEdit${
+              isUserCategory ? `?passedCategory=${selectedCategory}` : ''
+            }`
+          )
+        }
       />
     </View>
   );

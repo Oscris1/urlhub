@@ -38,6 +38,7 @@
   "copied_to_clipboard": "Skopiowano do schowka",
   "create_link": "Utwórz link",
   "no_links_yet": "Nie masz jeszcze linków",
+  "no_links_in_category": "W tej kategorii nie masz \n jeszcze linków",
   "closing_app": "Zamykanie aplikacji",
   "confirm_exit": "Czy chcesz opuścić aplikację?"
 }
