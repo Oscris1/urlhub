@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Animated, {
+import {
   useSharedValue,
   useAnimatedStyle,
   withTiming,
@@ -11,8 +11,6 @@ import { Spinner, useTheme } from 'tamagui';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import { AnimatedView } from './AnimatedComponents';
 import { MaterialIcons } from '@expo/vector-icons';
-
-const AnimatedMaterialIcons = Animated.createAnimatedComponent(MaterialIcons);
 
 interface SaveButtonButtonProps {
   onPress: (animation: () => void, endAnimation: () => void) => Promise<void>;
@@ -65,7 +63,7 @@ const SaveButton: React.FC<SaveButtonButtonProps> = ({ onPress, disabled }) => {
     return {
       borderWidth: animation.value,
       borderColor,
-      backgroundColor,
+      backgroundColor: !disabled ? backgroundColor : theme.disabled.val,
       opacity: withTiming(isActive.value ? 0.5 : 1, {
         duration: 100,
       }),
@@ -78,13 +76,7 @@ const SaveButton: React.FC<SaveButtonButtonProps> = ({ onPress, disabled }) => {
   });
 
   const rIconStyle = useAnimatedStyle(() => {
-    const color = interpolateColor(
-      animation.value,
-      [0, 1],
-      [theme.white.val, theme.text.val]
-    );
     return {
-      color,
       transform: [
         {
           rotate: withSpring(isActive.value ? `${Math.PI / 4}rad` : '0rad'),
@@ -106,7 +98,13 @@ const SaveButton: React.FC<SaveButtonButtonProps> = ({ onPress, disabled }) => {
         {!!isLoading ? (
           <Spinner size='small' color={theme.textContrast.val} />
         ) : (
-          <AnimatedMaterialIcons name='add' size={30} style={rIconStyle} />
+          <AnimatedView style={rIconStyle}>
+            <MaterialIcons
+              name='add'
+              size={30}
+              color={disabled ? theme.disabledText.val : theme.white.val}
+            />
+          </AnimatedView>
         )}
       </AnimatedView>
     </GestureDetector>

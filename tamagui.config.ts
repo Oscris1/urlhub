@@ -28,6 +28,8 @@ export const config = createTamagui({
       gradientAdditional: '#8A88FB', // #4B73FF '#DDE4FF'
       successToast: 'rgba(141, 162, 238, 0.8)',
       errorToast: 'rgba(255, 104, 104, 0.8)',
+      disabled: '#B5C0D0',
+      disabledText: '#CCD3CA',
     },
     light: {
       background: 'rgba(7, 15, 43, 0.5)',
@@ -43,6 +45,8 @@ export const config = createTamagui({
       gradientAdditional: '#3652AD',
       successToast: 'rgba(40, 2, 116, 0.7)',
       errorToast: 'rgba(255, 104, 104, 0.7)',
+      disabled: '#B5C0D0',
+      disabledText: '#CCD3CA',
     },
   },
 });
