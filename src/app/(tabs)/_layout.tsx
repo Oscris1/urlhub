@@ -11,20 +11,16 @@ import Toast from 'react-native-toast-message';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from 'tamagui';
 import { useGlobalStore } from '@/stores/globalStore';
+import { useShareIntentHandler } from '@/hooks';
+import { shortenLink } from '@/utils';
 
 export default function TabLayout() {
+  const database = useDatabase();
   const { t } = useTranslation();
   const theme = useTheme();
   const resetLinkListSelectedCategory = useGlobalStore(
     (state) => state.resetSelectedCategory
   );
-  const shortenLink = (link: string, maxLength = 60) => {
-    if (link.length > maxLength) {
-      return link.substring(0, maxLength - 3) + '...';
-    } else {
-      return link;
-    }
-  };
 
   const handleFastAdd = async () => {
     const text = await Clipboard.getStringAsync();
@@ -45,27 +41,40 @@ export default function TabLayout() {
           onPress: () => {},
           style: 'cancel',
         },
-        { text: t('yes'), onPress: () => saveToDatabase(text) },
+        {
+          text: t('yes'),
+          onPress: () => saveToDatabase(text),
+        },
       ],
       { cancelable: true }
     );
   };
-  const database = useDatabase();
-  const saveToDatabase = async (text: string) => {
+
+  const saveToDatabase = async (text: string, callback?: () => void) => {
     await database.write(async () => {
-      await database.get<LinkModel>('links').create((link) => {
-        link.url = text;
-      });
-      resetLinkListSelectedCategory();
-      Toast.show({
-        type: 'success',
-        text1: t('saved'),
-        visibilityTime: 2200,
-      });
+      await database
+        .get<LinkModel>('links')
+        .create((link) => {
+          link.url = text;
+        })
+        .then((readyLink) => {
+          resetLinkListSelectedCategory();
+          if (!!callback) {
+            callback();
+          }
+          // @ts-ignore
+          router.push(`/createEdit?id=${readyLink.id}`);
+          Toast.show({
+            type: 'success',
+            text1: t('saved'),
+            visibilityTime: 2200,
+          });
+        });
     });
   };
 
   const segments = useSegments();
+  useShareIntentHandler(saveToDatabase);
 
   return (
     <Tabs

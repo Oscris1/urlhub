@@ -3,7 +3,7 @@ import {
   DefaultTheme,
   ThemeProvider,
 } from '@react-navigation/native';
-import { SplashScreen, Stack } from 'expo-router';
+import { SplashScreen, Stack, router } from 'expo-router';
 import { Appearance, ColorSchemeName } from 'react-native';
 import { TamaguiProvider } from 'tamagui';
 import { DatabaseProvider } from '@nozbe/watermelondb/react';
@@ -17,6 +17,7 @@ import { toastConfig } from 'toast.config';
 import { initializeI18n } from '@/translations';
 import '../../tamagui-web.css';
 import { useGlobalStore } from '@/stores/globalStore';
+import { ShareIntentProvider } from 'expo-share-intent';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -81,17 +82,31 @@ function RootLayoutNav() {
   const visibleTheme = useGlobalStore((state) => state.visibleTheme);
 
   return (
-    <TamaguiProvider config={config} defaultTheme={visibleTheme as any}>
-      <ThemeProvider value={visibleTheme === 'dark' ? DarkTheme : DefaultTheme}>
-        <DatabaseProvider database={database}>
-          <GestureHandlerRootView style={{ flex: 1 }}>
-            <Stack>
-              <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
-            </Stack>
-            <Toast config={toastConfig} position='bottom' bottomOffset={70} />
-          </GestureHandlerRootView>
-        </DatabaseProvider>
-      </ThemeProvider>
-    </TamaguiProvider>
+    <ShareIntentProvider
+      options={{
+        debug: false,
+        resetOnBackground: true,
+        onResetShareIntent: () =>
+          // used when app going in background and when the reset button is pressed
+          router.replace({
+            pathname: '/',
+          }),
+      }}
+    >
+      <TamaguiProvider config={config} defaultTheme={visibleTheme as any}>
+        <ThemeProvider
+          value={visibleTheme === 'dark' ? DarkTheme : DefaultTheme}
+        >
+          <DatabaseProvider database={database}>
+            <GestureHandlerRootView style={{ flex: 1 }}>
+              <Stack>
+                <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
+              </Stack>
+              <Toast config={toastConfig} position='bottom' bottomOffset={70} />
+            </GestureHandlerRootView>
+          </DatabaseProvider>
+        </ThemeProvider>
+      </TamaguiProvider>
+    </ShareIntentProvider>
   );
 }

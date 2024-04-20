@@ -1,5 +1,6 @@
 {
   "quick_add_link": "Quick add link",
+  "receive_shared_content": "Receive Shared Content",
   "no_url_in_clipboard": "No URL in clipboard",
   "confirm_save_link": "Do you want to save the provided value as a link?",
   "no": "No",
@@ -40,5 +41,6 @@
   "no_links_yet": "No links yet",
   "no_links_in_category": "No links in this category yet",
   "closing_app": "Closing app",
-  "confirm_exit": "Do you want to exit the app?"
+  "confirm_exit": "Do you want to exit the app?",
+  "shared_content_no_weburl": "The shared content does not have a webUrl"
 }

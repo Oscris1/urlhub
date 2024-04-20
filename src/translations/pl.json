@@ -1,5 +1,6 @@
 {
   "quick_add_link": "Szybkie dodawanie linka",
+  "receive_shared_content": "Odbieranie udostępnionej treści",
   "no_url_in_clipboard": "Brak URL w schowku",
   "confirm_save_link": "Czy chcesz zapisać podaną wartość jako link?",
   "no": "Nie",
@@ -40,5 +41,6 @@
   "no_links_yet": "Nie masz jeszcze linków",
   "no_links_in_category": "W tej kategorii nie masz \n jeszcze linków",
   "closing_app": "Zamykanie aplikacji",
-  "confirm_exit": "Czy chcesz opuścić aplikację?"
+  "confirm_exit": "Czy chcesz opuścić aplikację?",
+  "shared_content_no_weburl": "Udostępniona treść nie posiada webUrl"
 }

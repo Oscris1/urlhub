@@ -5,7 +5,7 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/logo.png",
-    "scheme": "myapp",
+    "scheme": "urlhub",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/logoWhite.png",
@@ -32,6 +32,7 @@
       "expo-router",
       "expo-font",
       "expo-localization",
+      "expo-share-intent",
       ["@morrowdigital/watermelondb-expo-plugin"],
       [
         "expo-build-properties",
@@ -48,6 +49,20 @@
     "experiments": {
       "typedRoutes": true,
       "tsconfigPaths": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "10602adc-417b-4a0d-830f-2838d4dbd5b8"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/10602adc-417b-4a0d-830f-2838d4dbd5b8"
     }
   }
 }
