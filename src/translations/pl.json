@@ -42,5 +42,10 @@
   "no_links_in_category": "W tej kategorii nie masz \n jeszcze linków",
   "closing_app": "Zamykanie aplikacji",
   "confirm_exit": "Czy chcesz opuścić aplikację?",
-  "shared_content_no_weburl": "Udostępniona treść nie posiada webUrl"
+  "shared_content_no_weburl": "Udostępniona treść nie posiada webUrl",
+  "choose_app_behavior": "Wybierz jak aplikacja ma się zachować przy szybkim dodawaniu i udostępnianiu do niej:",
+  "quick_action_saved": "Zachowanie szybkiej akcji zostało zapisane",
+  "ask_if_save": "Zapytaj czy zapisać",
+  "only_save": "Tylko zapisz",
+  "save_and_edit": "Zapisz i uruchom ekran edytowania"
 }

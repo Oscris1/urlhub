@@ -1,11 +1,12 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { Spacer, View } from 'tamagui';
+import { ScrollView, View } from 'tamagui';
 import { Stack } from 'expo-router';
 import { AnimatedHeader } from '@/components/common';
 import SelectLanguage from '@/components/settings/SelectLanguage';
 import SelectTheme from '@/components/settings/SelectTheme';
 import { useGlobalStore } from '@/stores/globalStore';
+import SelectQuickAddBehavior from '@/components/settings/SelectQuickAddBehavior';
 
 const MARGIN_TOP_SETTINGS_VIEW = -40;
 
@@ -31,13 +32,17 @@ const Settings = () => {
         shadowOpacity={0.3}
         shadowRadius={4.65}
         elevationAndroid={8}
+        pt={20}
       >
-        <View pt={40} px={10}>
-          <SelectLanguage />
-          <Spacer />
-          <SelectTheme />
-        </View>
+        <ScrollView>
+          <View px={10} gap={15}>
+            <SelectLanguage />
+            <SelectTheme />
+            <SelectQuickAddBehavior />
+          </View>
+        </ScrollView>
       </View>
+
       <StatusBar style={visibleTheme === 'dark' ? 'dark' : 'light'} />
     </View>
   );

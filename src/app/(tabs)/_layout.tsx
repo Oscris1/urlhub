@@ -18,6 +18,12 @@ export default function TabLayout() {
   const database = useDatabase();
   const { t } = useTranslation();
   const theme = useTheme();
+  const navigateToEditScreenAfterSaving = useGlobalStore(
+    (state) => state.navigateToEditScreenAfterSaving
+  );
+  const showAlertBeforeSaving = useGlobalStore(
+    (state) => state.showAlertBeforeSaving
+  );
   const resetLinkListSelectedCategory = useGlobalStore(
     (state) => state.resetSelectedCategory
   );
@@ -32,22 +38,26 @@ export default function TabLayout() {
       });
       return;
     }
-    Alert.alert(
-      t('quick_add_link'), // Tytuł
-      `${t('confirm_save_link')}\n\n${shortenLink(text)}`, // Wiadomość
-      [
-        {
-          text: t('no'),
-          onPress: () => {},
-          style: 'cancel',
-        },
-        {
-          text: t('yes'),
-          onPress: () => saveToDatabase(text),
-        },
-      ],
-      { cancelable: true }
-    );
+    if (showAlertBeforeSaving) {
+      Alert.alert(
+        t('quick_add_link'),
+        `${t('confirm_save_link')}\n\n${shortenLink(text)}`,
+        [
+          {
+            text: t('no'),
+            onPress: () => {},
+            style: 'cancel',
+          },
+          {
+            text: t('yes'),
+            onPress: () => saveToDatabase(text),
+          },
+        ],
+        { cancelable: true }
+      );
+    } else {
+      saveToDatabase(text);
+    }
   };
 
   const saveToDatabase = async (text: string, callback?: () => void) => {
@@ -62,8 +72,10 @@ export default function TabLayout() {
           if (!!callback) {
             callback();
           }
-          // @ts-ignore
-          router.push(`/createEdit?id=${readyLink.id}`);
+          if (navigateToEditScreenAfterSaving) {
+            // @ts-ignore
+            router.push(`/createEdit?id=${readyLink.id}`);
+          }
           Toast.show({
             type: 'success',
             text1: t('saved'),

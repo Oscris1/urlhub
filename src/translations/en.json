@@ -42,5 +42,10 @@
   "no_links_in_category": "No links in this category yet",
   "closing_app": "Closing app",
   "confirm_exit": "Do you want to exit the app?",
-  "shared_content_no_weburl": "The shared content does not have a webUrl"
+  "shared_content_no_weburl": "The shared content does not have a webUrl",
+  "choose_app_behavior": "Choose how the app should behave with quick adding and sharing to it:",
+  "quick_action_saved": "Quick action behavior has been saved",
+  "ask_if_save": "Ask if save",
+  "only_save": "Only save",
+  "save_and_edit": "Save and launch editing screen"
 }
