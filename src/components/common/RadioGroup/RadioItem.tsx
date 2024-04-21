@@ -3,25 +3,18 @@ import { Text, XStack, Spacer, useTheme } from 'tamagui';
 import { GestureDetector, Gesture } from 'react-native-gesture-handler';
 import {
   Easing,
-  SharedValue,
   useAnimatedStyle,
   useSharedValue,
   withSequence,
   withTiming,
 } from 'react-native-reanimated';
 import { ActivityIndicator } from 'react-native';
-import { AnimatedView, RadioOuter } from '@/components/common';
 import { useGlobalStore } from '@/stores/globalStore';
+import { AnimatedView } from '../AnimatedComponents';
+import { RadioOuter } from '../StyledComponents';
+import { RadioItemProps } from './types';
 
-interface ItemSelectItemProps {
-  item: {
-    id: string;
-    displayName: string;
-  };
-  sharedSelectedItem: SharedValue<string>;
-}
-
-export const SelectItem: React.FC<ItemSelectItemProps> = ({
+export const RadioItem: React.FC<RadioItemProps> = ({
   item,
   sharedSelectedItem,
 }) => {
@@ -63,7 +56,7 @@ export const SelectItem: React.FC<ItemSelectItemProps> = ({
   );
 };
 
-export const SelectItemDisabled: React.FC<ItemSelectItemProps> = ({
+export const RadioItemDisabled: React.FC<RadioItemProps> = ({
   item,
   sharedSelectedItem,
 }) => {

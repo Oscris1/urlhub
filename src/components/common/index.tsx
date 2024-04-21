@@ -2,6 +2,7 @@ import { AnimatedView, AnimatedText } from './AnimatedComponents';
 import AnimatedHeader from './AnimatedHeader';
 import Logo from './Logo';
 import PressableButton from './PressableButton';
+import { RadioGroup, RadioItem } from './RadioGroup';
 import SaveButton from './SaveButton';
 import ShimmerTextEffect from './ShimmerTextEffect';
 import { RadioOuter } from './StyledComponents';
@@ -15,4 +16,6 @@ export {
   RadioOuter,
   Logo,
   AnimatedHeader,
+  RadioGroup,
+  RadioItem,
 };

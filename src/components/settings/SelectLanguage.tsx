@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, YStack } from 'tamagui';
 import { useTranslation } from 'react-i18next';
-import { PressableButton } from '@/components/common';
 import Toast from 'react-native-toast-message';
 import { useSharedValue } from 'react-native-reanimated';
-
-import { SelectItem, SelectItemDisabled } from './SelectItem';
 import { storage } from '@/stores';
+import { RadioGroup } from '@/components/common';
 
-export const SelectLanguage = () => {
+const SelectLanguage = () => {
   const { t, i18n } = useTranslation();
   const sharedSelectedLanguage = useSharedValue('pl');
   const [isLoading, setIsLoading] = useState(false);
@@ -41,26 +38,14 @@ export const SelectLanguage = () => {
   };
 
   return (
-    <View backgroundColor='$secondary' padding={20} borderRadius={10}>
-      <Text color='$text'>{t('select_language')}</Text>
-      <YStack>
-        {languages.map((language) => (
-          <View key={language.id}>
-            {!isLoading ? (
-              <SelectItem
-                item={language}
-                sharedSelectedItem={sharedSelectedLanguage}
-              />
-            ) : (
-              <SelectItemDisabled
-                item={language}
-                sharedSelectedItem={sharedSelectedLanguage}
-              />
-            )}
-          </View>
-        ))}
-        <PressableButton isLoading={isLoading} onPress={save} />
-      </YStack>
-    </View>
+    <RadioGroup
+      title={t('select_language')}
+      options={languages}
+      isLoading={isLoading}
+      sharedSelectedItem={sharedSelectedLanguage}
+      onSave={save}
+    />
   );
 };
+
+export default SelectLanguage;
