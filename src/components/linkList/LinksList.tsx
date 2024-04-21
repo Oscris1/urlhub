@@ -126,7 +126,13 @@ const LinksEmptyComponent: React.FC<LinksEmptyComponentProps> = ({
     selectedCategory === 'all' || selectedCategory === 'none'
   );
   return (
-    <View width='100%' justifyContent='center' alignItems='center' py={10}>
+    <View
+      width='100%'
+      justifyContent='center'
+      alignItems='center'
+      py={10}
+      gap={12}
+    >
       <Text fontWeight='500' fontSize={20} color='$text' textAlign='center'>
         {isUserCategory ? t('no_links_in_category') : t('no_links_yet')}
       </Text>

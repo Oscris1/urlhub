@@ -1,14 +1,13 @@
 import React from 'react';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { LinearGradient } from '@tamagui/linear-gradient';
-import { AnimatedView } from './AnimatedComponents';
-import Logo from './Logo';
+import { AnimatedView } from '../AnimatedComponents';
+import Logo from '../Logo';
 import {
   Extrapolation,
   SharedValue,
   interpolate,
   useAnimatedStyle,
 } from 'react-native-reanimated';
+import HeaderGradient from './HeaderGradient';
 
 const HEADER_HIGHT = 250;
 const HEADER_DECREACE_HIGHT_VALUE = 80;
@@ -16,15 +15,13 @@ const FINAL_HEADER_HIGHT = HEADER_HIGHT - HEADER_DECREACE_HIGHT_VALUE;
 
 interface AnimatedHeaderProps {
   yPosition?: SharedValue<number>;
-  savePaddingBottom: number;
+  safePaddingBottom: number;
 }
 
 const AnimatedHeader: React.FC<AnimatedHeaderProps> = ({
   yPosition,
-  savePaddingBottom,
+  safePaddingBottom,
 }) => {
-  const insets = useSafeAreaInsets();
-
   const rIconStyle = useAnimatedStyle(() => {
     if (!yPosition)
       return {
@@ -67,21 +64,11 @@ const AnimatedHeader: React.FC<AnimatedHeaderProps> = ({
 
   return (
     <AnimatedView style={rGradientStyle}>
-      <LinearGradient
-        colors={['$gradientAdditional', '$primary']}
-        start={{ x: 1, y: 1 }}
-        end={{ x: 0, y: 0 }}
-        width='100%'
-        h='100%'
-        paddingTop={insets.top}
-        alignItems='center'
-        justifyContent='center'
-        paddingBottom={savePaddingBottom}
-      >
+      <HeaderGradient safePaddingBottom={safePaddingBottom}>
         <AnimatedView style={rIconStyle}>
           <Logo />
         </AnimatedView>
-      </LinearGradient>
+      </HeaderGradient>
     </AnimatedView>
   );
 };

@@ -12,9 +12,17 @@ export const RadioGroup: React.FC<RadioGroupProps> = ({
   onSave,
 }) => {
   return (
-    <View backgroundColor='$secondary' px={20} py={12} borderRadius={10}>
-      <Text color='$text'>{title}</Text>
-      <YStack pt={6}>
+    <View
+      backgroundColor='$secondary'
+      px={20}
+      py={12}
+      borderRadius={10}
+      gap={12}
+    >
+      <Text fontWeight='500' fontSize={14} color='$text'>
+        {title}
+      </Text>
+      <YStack gap={6}>
         {options.map((option) => (
           <View key={option.id}>
             {!isLoading ? (
@@ -30,8 +38,8 @@ export const RadioGroup: React.FC<RadioGroupProps> = ({
             )}
           </View>
         ))}
-        <PressableButton isLoading={isLoading} onPress={onSave} />
       </YStack>
+      <PressableButton isLoading={isLoading} onPress={onSave} />
     </View>
   );
 };

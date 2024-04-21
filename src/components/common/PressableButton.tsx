@@ -41,7 +41,7 @@ const PressableButton: React.FC<PressableButtonProps> = ({
       ['transparent', theme.text.val]
     );
     return {
-      borderWidth: animation.value,
+      borderWidth: 1,
       borderColor,
       backgroundColor,
       opacity: withTiming(isActive.value ? 0.5 : 1, {
@@ -82,7 +82,6 @@ const PressableButton: React.FC<PressableButtonProps> = ({
       }}
     >
       <AnimatedView
-        marginTop={10}
         borderRadius={10}
         padding={4}
         px={12}

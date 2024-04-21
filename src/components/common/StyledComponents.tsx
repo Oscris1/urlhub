@@ -9,7 +9,7 @@ export const RadioOuter = styled(View, {
   borderColor: '$primary',
   justifyContent: 'center',
   alignItems: 'center',
-  marginRight: 4,
+  marginRight: 6,
 });
 
 export type RadioOuterProps = GetProps<typeof RadioOuter>;

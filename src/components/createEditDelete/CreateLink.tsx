@@ -42,7 +42,6 @@ const CreateLink = () => {
   };
 
   useEffect(() => {
-    console.log('id z local', id);
     prepareEdit();
   }, [id]);
 
@@ -123,15 +122,10 @@ const CreateLink = () => {
       padding={20}
       borderRadius={10}
       height={250}
+      gap={10}
     >
-      <Text color='$text' paddingBottom={10}>
-        {id ? t('edit') : t('add')} link
-      </Text>
-      <View
-        flexDirection='row'
-        justifyContent='space-between'
-        marginBottom={10}
-      >
+      <Text color='$text'>{id ? t('edit') : t('add')} link</Text>
+      <View flexDirection='row' justifyContent='space-between'>
         <Input
           placeholder={t('url')}
           onChangeText={setUrl}
@@ -155,11 +149,7 @@ const CreateLink = () => {
           <FontAwesome name='paste' size={20} color={theme.white.val} />
         </TouchableOpacity>
       </View>
-      <View
-        flexDirection='row'
-        justifyContent='space-between'
-        marginBottom={10}
-      >
+      <View flexDirection='row' justifyContent='space-between'>
         <Input
           placeholder={t('link_name')}
           onChangeText={setLinkName}
@@ -176,12 +166,11 @@ const CreateLink = () => {
         add
         selectedCategory={selectedCategory}
         setSelectedCategory={setSelectedCategory}
-        size='$3'
+        size='$2'
         borderRadius={6}
       />
-      <View marginTop={10} paddingBottom={30}>
-        <SaveButton onPress={createOrEditLink} disabled={!url} />
-      </View>
+
+      <SaveButton onPress={createOrEditLink} disabled={!url} />
     </View>
   );
 };

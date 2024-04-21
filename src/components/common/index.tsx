@@ -1,5 +1,5 @@
 import { AnimatedView, AnimatedText } from './AnimatedComponents';
-import AnimatedHeader from './AnimatedHeader';
+import { AnimatedHeader, StaticHeader } from './Headers';
 import Logo from './Logo';
 import PressableButton from './PressableButton';
 import { RadioGroup, RadioItem } from './RadioGroup';
@@ -16,6 +16,7 @@ export {
   RadioOuter,
   Logo,
   AnimatedHeader,
+  StaticHeader,
   RadioGroup,
   RadioItem,
 };

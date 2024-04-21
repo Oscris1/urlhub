@@ -2,13 +2,13 @@ import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { ScrollView, View } from 'tamagui';
 import { Stack } from 'expo-router';
-import { AnimatedHeader } from '@/components/common';
 import SelectLanguage from '@/components/settings/SelectLanguage';
 import SelectTheme from '@/components/settings/SelectTheme';
 import { useGlobalStore } from '@/stores/globalStore';
 import SelectQuickAddBehavior from '@/components/settings/SelectQuickAddBehavior';
+import { StaticHeader } from '@/components/common';
 
-const MARGIN_TOP_SETTINGS_VIEW = -40;
+const MARGIN_TOP_SETTINGS_VIEW = -20;
 
 const Settings = () => {
   const visibleTheme = useGlobalStore((state) => state.visibleTheme);
@@ -20,7 +20,7 @@ const Settings = () => {
           headerShown: false,
         }}
       />
-      <AnimatedHeader savePaddingBottom={-MARGIN_TOP_SETTINGS_VIEW} />
+      <StaticHeader safePaddingBottom={-MARGIN_TOP_SETTINGS_VIEW} />
       <View
         borderTopStartRadius={25}
         borderTopEndRadius={25}

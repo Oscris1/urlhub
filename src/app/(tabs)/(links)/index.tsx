@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { useDatabase } from '@nozbe/watermelondb/hooks';
 import EnchancedLinksList from '@/components/linkList';
@@ -60,7 +60,7 @@ const Index = () => {
           headerShown: false,
         }}
       />
-      <AnimatedHeader yPosition={yPosition} savePaddingBottom={PADDING} />
+      <AnimatedHeader yPosition={yPosition} safePaddingBottom={PADDING} />
       <View
         borderTopStartRadius={25}
         borderTopEndRadius={25}

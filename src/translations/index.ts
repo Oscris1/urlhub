@@ -13,7 +13,6 @@ export const resources = {
 
 export const initializeI18n = async (): Promise<void> => {
   let userLanguage = storage.getString('userLanguage');
-  console.log('userLanguage', userLanguage);
   if (!userLanguage) {
     userLanguage = Localization.getLocales()[0].languageCode || undefined;
     if (userLanguage) {

@@ -70,7 +70,6 @@ const SwapToRemove: React.FC<SwapToRemoveProps> = ({ id }) => {
     })
     .onEnd(() => {
       if (scrollX.value > TRIGGER_DELETE_MOMENT) {
-        console.log('usuwanie');
         runOnJS(handleRemove)();
       } else {
         scrollX.value = withSpring(0);
