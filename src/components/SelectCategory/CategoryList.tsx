@@ -5,6 +5,7 @@ import { withObservables } from '@nozbe/watermelondb/react';
 import { Entypo } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import { categoriesCollection } from '@/model';
+import { Q } from '@nozbe/watermelondb';
 
 interface CategoryListProps {
   categories: Category[];
@@ -72,7 +73,9 @@ const enhance = withObservables<EnchanceCategoryListProps, CategoryListProps>(
   [],
   () => ({
     // @ts-ignore
-    categories: categoriesCollection.query().observeWithColumns(['name']),
+    categories: categoriesCollection
+      .query(Q.sortBy('created_at', Q.desc))
+      .observeWithColumns(['name']),
   })
 );
 

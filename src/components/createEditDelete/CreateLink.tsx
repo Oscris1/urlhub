@@ -137,6 +137,7 @@ const CreateLink = () => {
             bg='$white'
             w='80%'
             borderRadius={6}
+            autoCorrect={false}
           />
           <TouchableOpacity
             style={{
@@ -164,6 +165,7 @@ const CreateLink = () => {
             backgroundColor='$white'
             w='100%'
             borderRadius={6}
+            autoCorrect={false}
           />
         </View>
       </InputWrapper>

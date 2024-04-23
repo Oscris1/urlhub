@@ -5,7 +5,10 @@ export default appSchema({
   tables: [
     tableSchema({
       name: 'categories',
-      columns: [{ name: 'name', type: 'string' }],
+      columns: [
+        { name: 'name', type: 'string' },
+        { name: 'created_at', type: 'number' },
+      ],
     }),
     tableSchema({
       name: 'links',

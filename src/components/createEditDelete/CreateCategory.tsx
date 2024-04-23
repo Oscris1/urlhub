@@ -83,6 +83,7 @@ const CreateCategory = () => {
             width='80%'
             borderRadius={6}
             paddingLeft={6}
+            autoCorrect={false}
           />
           <View width='18%'>
             <SaveButton
