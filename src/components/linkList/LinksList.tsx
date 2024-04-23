@@ -13,6 +13,7 @@ import { PressableButton } from '../common';
 import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { linksCollection } from '@/model';
+import { useGlobalStore } from '@/stores/globalStore';
 
 const AnimatedFlashList = Animated.createAnimatedComponent(FlashList<Link>);
 
@@ -35,6 +36,9 @@ const LinksList: React.FC<LinkListProps> = ({
   const listRef = useRef<FlashList<Link>>(null);
   const prevLinksLength = useRef(links.length);
   const prevCategory = useRef(selectedCategory);
+  const scrollToTopDependency = useGlobalStore(
+    (state) => state.scrollToTopDependency
+  );
 
   const scrollHandler = useAnimatedScrollHandler((event) => {
     yPosition.value = event.contentOffset.y;
@@ -59,6 +63,11 @@ const LinksList: React.FC<LinkListProps> = ({
     }
     prevCategory.current = selectedCategory;
   }, [selectedCategory]);
+
+  useEffect(() => {
+    // scroll to top on on demand
+    listRef.current?.scrollToIndex({ index: 0, animated: true });
+  }, [scrollToTopDependency]);
 
   return (
     <AnimatedFlashList

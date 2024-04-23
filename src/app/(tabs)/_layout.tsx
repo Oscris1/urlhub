@@ -27,6 +27,9 @@ export default function TabLayout() {
   const resetLinkListSelectedCategory = useGlobalStore(
     (state) => state.resetSelectedCategory
   );
+  const triggerScrollToTop = useGlobalStore(
+    (state) => state.triggerScrollToTop
+  );
 
   const handleFastAdd = async () => {
     const text = await Clipboard.getStringAsync();
@@ -98,6 +101,15 @@ export default function TabLayout() {
     >
       <Tabs.Screen
         name='(links)'
+        listeners={() => ({
+          tabPress: (e) => {
+            // if user is on links list screen
+            if (segments[1] === '(links)') {
+              // scroll to top
+              triggerScrollToTop();
+            }
+          },
+        })}
         options={{
           title: 'Linki',
           tabBarIcon: ({ color, focused }) => (
@@ -157,7 +169,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name='settings'
         options={{
-          title: 'Ustawienia',
+          title: 'Settings',
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
               name={`settings-${focused ? 'sharp' : 'outline'}`}

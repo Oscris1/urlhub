@@ -20,6 +20,10 @@ interface ThemeState {
   showAlertBeforeSaving: boolean;
   navigateToEditScreenAfterSaving: boolean;
   changeFastAddBehavior: (behavior: 'save' | 'ask' | 'ask_and_open') => void;
+
+  //scroll to top
+  scrollToTopDependency: boolean; // dependency for link list useEffect
+  triggerScrollToTop: () => void;
 }
 
 export const useGlobalStore = create<ThemeState>()(
@@ -52,6 +56,13 @@ export const useGlobalStore = create<ThemeState>()(
           showAlertBeforeSaving: behavior !== 'save',
           navigateToEditScreenAfterSaving: behavior === 'ask_and_open',
         }),
+
+      // Links list scroll to top
+      scrollToTopDependency: true,
+      triggerScrollToTop: () =>
+        set((state) => ({
+          scrollToTopDependency: !state.scrollToTopDependency,
+        })),
     }),
     {
       name: 'themeKey',
