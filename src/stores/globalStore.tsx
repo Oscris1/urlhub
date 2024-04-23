@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import { zustandStorage } from '.';
 import { Appearance, ColorSchemeName } from 'react-native';
+import { supportedLanguages } from '@/translations';
 
 interface ThemeState {
   // theme
@@ -21,9 +22,15 @@ interface ThemeState {
   navigateToEditScreenAfterSaving: boolean;
   changeFastAddBehavior: (behavior: 'save' | 'ask' | 'ask_and_open') => void;
 
-  //scroll to top
+  // scroll to top
   scrollToTopDependency: boolean; // dependency for link list useEffect
   triggerScrollToTop: () => void;
+
+  // language
+  language: supportedLanguages;
+  setLanguage: (language: supportedLanguages) => void;
+  firstLaunch: boolean;
+  finishFirstLaunch: () => void;
 }
 
 export const useGlobalStore = create<ThemeState>()(
@@ -63,9 +70,15 @@ export const useGlobalStore = create<ThemeState>()(
         set((state) => ({
           scrollToTopDependency: !state.scrollToTopDependency,
         })),
+
+      // language
+      language: 'en',
+      setLanguage: (language) => set({ language }),
+      firstLaunch: true,
+      finishFirstLaunch: () => set({ firstLaunch: false }),
     }),
     {
-      name: 'themeKey',
+      name: 'globalStore',
       storage: createJSONStorage(() => zustandStorage),
       partialize: (state) => ({
         visibleTheme: state.visibleTheme,
@@ -73,6 +86,8 @@ export const useGlobalStore = create<ThemeState>()(
         fastAddBehavior: state.fastAddBehavior,
         showAlertBeforeSaving: state.showAlertBeforeSaving,
         navigateToEditScreenAfterSaving: state.navigateToEditScreenAfterSaving,
+        language: state.language,
+        firstLaunch: state.firstLaunch,
       }),
     }
   )

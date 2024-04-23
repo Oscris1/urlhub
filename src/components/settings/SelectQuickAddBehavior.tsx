@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import Toast from 'react-native-toast-message';
 import { useSharedValue } from 'react-native-reanimated';
 import { useGlobalStore } from '@/stores/globalStore';
 import { RadioGroup } from '../common/RadioGroup/RadioGroup';
+import { useFocusEffect } from 'expo-router';
 
 const SelectQuickAddBehavior = () => {
   const { t } = useTranslation();
@@ -38,6 +39,12 @@ const SelectQuickAddBehavior = () => {
     });
     setIsLoading(false);
   };
+
+  useFocusEffect(
+    useCallback(() => {
+      sharedSelectedBehavior.value = fastAddBehavior;
+    }, [fastAddBehavior])
+  );
 
   return (
     <RadioGroup

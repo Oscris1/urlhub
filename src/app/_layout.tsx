@@ -37,17 +37,14 @@ export default function RootLayout() {
     (state) => state.updateThemeViaSubscription
   );
   const themeKey = useGlobalStore((state) => state.themeKey);
+  const finishFirstLaunch = useGlobalStore((state) => state.finishFirstLaunch);
   const [interLoaded, interError] = useFonts({
     Inter: require('@tamagui/font-inter/otf/Inter-Medium.otf'),
     InterBold: require('@tamagui/font-inter/otf/Inter-Bold.otf'),
   });
 
   useEffect(() => {
-    initializeI18n();
-  }, []);
-
-  useEffect(() => {
-    initializeI18n();
+    initializeI18n().then(() => finishFirstLaunch());
   }, []);
 
   useEffect(() => {

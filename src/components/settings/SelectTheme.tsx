@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Toast from 'react-native-toast-message';
 import { useSharedValue } from 'react-native-reanimated';
 import { Appearance } from 'react-native';
 import { useGlobalStore } from '@/stores/globalStore';
 import { RadioGroup } from '../common/RadioGroup/RadioGroup';
+import { useFocusEffect } from 'expo-router';
 
 const SelectTheme = () => {
   const { t } = useTranslation();
@@ -41,6 +42,12 @@ const SelectTheme = () => {
     });
     setIsLoading(false);
   };
+
+  useFocusEffect(
+    useCallback(() => {
+      sharedSelectedTheme.value = theme;
+    }, [theme])
+  );
 
   return (
     <RadioGroup
