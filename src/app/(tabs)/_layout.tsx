@@ -5,7 +5,6 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Alert } from 'react-native';
 import { useDatabase } from '@nozbe/watermelondb/hooks';
 import * as Clipboard from 'expo-clipboard';
-import { Link as LinkModel } from '../../model/link';
 import { useSegments } from 'expo-router';
 import Toast from 'react-native-toast-message';
 import { useTranslation } from 'react-i18next';
@@ -13,6 +12,7 @@ import { useTheme } from 'tamagui';
 import { useGlobalStore } from '@/stores/globalStore';
 import { useShareIntentHandler } from '@/hooks';
 import { shortenLink } from '@/utils';
+import { linksCollection } from '@/model';
 
 export default function TabLayout() {
   const database = useDatabase();
@@ -62,8 +62,7 @@ export default function TabLayout() {
 
   const saveToDatabase = async (text: string, callback?: () => void) => {
     await database.write(async () => {
-      await database
-        .get<LinkModel>('links')
+      await linksCollection
         .create((link) => {
           link.url = text;
         })
@@ -78,7 +77,7 @@ export default function TabLayout() {
           }
           Toast.show({
             type: 'success',
-            text1: t('saved'),
+            text1: t('link_created'),
             visibilityTime: 2200,
           });
         });

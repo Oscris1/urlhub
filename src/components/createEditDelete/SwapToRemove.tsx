@@ -16,6 +16,7 @@ import Toast from 'react-native-toast-message';
 import { useTranslation } from 'react-i18next';
 import { AnimatedView } from '@/components/common';
 import { Dimensions } from 'react-native';
+import { linksCollection } from '@/model';
 
 interface SwapToRemoveProps {
   id: string;
@@ -37,7 +38,7 @@ const SwapToRemove: React.FC<SwapToRemoveProps> = ({ id }) => {
 
   const handleRemove = async () => {
     await database.write(async () => {
-      const link = await database.get('links').find(id);
+      const link = await linksCollection.find(id);
       await link.destroyPermanently();
       Toast.show({
         type: 'success',

@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { useDatabase } from '@nozbe/watermelondb/hooks';
 import EnchancedLinksList from '@/components/linkList';
 import { View, YStack } from 'tamagui';
 import { SelectCategory } from '@/components/SelectCategory';
@@ -11,7 +10,7 @@ import { useSharedValue } from 'react-native-reanimated';
 import { Alert, BackHandler } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
-const MARGIN_TOP_LIST_VIEW = -40;
+const MARGIN_TOP_LIST_VIEW = -20;
 const MARGIN_TOP_SELECT = -30;
 const ADDITIONAL_PADDING_OVER_SELECT = 5;
 const PADDING =
@@ -19,7 +18,6 @@ const PADDING =
   ADDITIONAL_PADDING_OVER_SELECT;
 
 const Index = () => {
-  const database = useDatabase();
   const segments = useSegments();
   const { t } = useTranslation();
   const visibleTheme = useGlobalStore((state) => state.visibleTheme);
@@ -79,7 +77,7 @@ const Index = () => {
           alignItems='center'
           zIndex={2}
           marginTop={MARGIN_TOP_SELECT}
-          paddingBottom={40}
+          paddingBottom={10}
         >
           <View width='70%'>
             <SelectCategory
@@ -90,7 +88,6 @@ const Index = () => {
         </YStack>
 
         <EnchancedLinksList
-          database={database}
           selectedCategory={selectedCategory}
           yPosition={yPosition}
         />

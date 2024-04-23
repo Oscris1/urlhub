@@ -2,7 +2,6 @@ import { ActivityIndicator, BackHandler, Keyboard } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { Adapt, Select, Sheet, useTheme } from 'tamagui';
 import type { SelectProps, SizeTokens } from 'tamagui';
-import { useDatabase } from '@nozbe/watermelondb/react';
 import { Entypo } from '@expo/vector-icons';
 import { EnchancetCategoryList } from './CategoryList';
 import { useTranslation } from 'react-i18next';
@@ -13,6 +12,7 @@ interface CategoriesListProps {
   add?: boolean;
   size?: SizeTokens | undefined;
   borderRadius?: number;
+  width?: string | number;
 }
 
 export const SelectCategory = ({
@@ -21,11 +21,11 @@ export const SelectCategory = ({
   add,
   size,
   borderRadius,
+  width = '100%',
   ...props
 }: SelectProps & CategoriesListProps) => {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
-  const database = useDatabase();
   const [data, setData] = useState<{ id: string; name: string }[]>([]);
   const [categoryName, setCategoryName] = useState('');
   const theme = useTheme();
@@ -71,12 +71,12 @@ export const SelectCategory = ({
       {...props}
     >
       <Select.Trigger
-        flex={1}
         size={!!size ? size : '$4'}
         borderRadius={!!borderRadius ? borderRadius : 15}
         backgroundColor='$white'
         borderColor='$black'
         borderWidth={1}
+        width={width}
         iconAfter={
           !categoryName && selectedCategory ? (
             <ActivityIndicator color={primaryColor} />
@@ -123,14 +123,10 @@ export const SelectCategory = ({
         <Select.Viewport minWidth={200}>
           <Select.Group>
             <Select.Label backgroundColor='$secondary' color='$text'>
-              Kategorie
+              {t('categories')}
             </Select.Label>
-            {/* for longer lists memoizing these is useful */}
-            <EnchancetCategoryList
-              database={database}
-              add={add}
-              setData={setData}
-            />
+
+            <EnchancetCategoryList add={add} setData={setData} />
           </Select.Group>
           {/* Native gets an extra icon */}
         </Select.Viewport>

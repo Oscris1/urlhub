@@ -49,7 +49,7 @@ export const RadioItem: React.FC<RadioItemProps> = ({
         <RadioOuter>
           <AnimatedView style={animatedStyle(item.id)} />
         </RadioOuter>
-        <Text fontSize={12} color='$text'>
+        <Text fontSize={13} color='$text'>
           {item.displayName}
         </Text>
         <Spacer />

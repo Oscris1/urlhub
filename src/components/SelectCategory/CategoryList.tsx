@@ -2,9 +2,9 @@ import React, { useEffect, useMemo } from 'react';
 import Category from '@/model/category';
 import { Select, View, useTheme } from 'tamagui';
 import { withObservables } from '@nozbe/watermelondb/react';
-import { Database } from '@nozbe/watermelondb';
 import { Entypo } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
+import { categoriesCollection } from '@/model';
 
 interface CategoryListProps {
   categories: Category[];
@@ -13,7 +13,6 @@ interface CategoryListProps {
 }
 
 interface EnchanceCategoryListProps {
-  database: Database;
   add?: boolean;
   setData: (data: { id: string; name: string }[]) => void;
 }
@@ -38,7 +37,7 @@ const CategoryList: React.FC<CategoryListProps> = ({
 
   useEffect(() => {
     setData(data);
-  }, [t('all'), t('unassigned')]);
+  }, [t('all'), t('unassigned'), categories]);
 
   return (
     <View onLayout={() => setData(data)}>
@@ -70,13 +69,10 @@ const CategoryList: React.FC<CategoryListProps> = ({
 };
 
 const enhance = withObservables<EnchanceCategoryListProps, CategoryListProps>(
-  ['database'],
-  ({ database }) => ({
+  [],
+  () => ({
     // @ts-ignore
-    categories: database.collections
-      .get<Category>('categories')
-      .query()
-      .observe(),
+    categories: categoriesCollection.query().observeWithColumns(['name']),
   })
 );
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Spacer, useTheme } from 'tamagui';
+import { ScrollView, View, useTheme } from 'tamagui';
 import CreateCategory from '@/components/createEditDelete/CreateCategory';
 import CreateLink from '@/components/createEditDelete/CreateLink';
 import { Stack, useLocalSearchParams } from 'expo-router';
@@ -10,14 +10,20 @@ import { useGlobalStore } from '@/stores/globalStore';
 
 const Add = () => {
   const visibleTheme = useGlobalStore((state) => state.visibleTheme);
-  const { id }: { id: string } = useLocalSearchParams(); // string | string[] by default
+  const { id, editCategoryId }: { id: string; editCategoryId?: string } =
+    useLocalSearchParams(); // string | string[] by default
   const { t } = useTranslation();
   const theme = useTheme();
+
   return (
     <>
       <Stack.Screen
         options={{
-          title: id ? t('edit') : t('add'),
+          title: id
+            ? t('edit_link')
+            : editCategoryId
+            ? t('edit_category')
+            : t('add'),
           headerStyle: { backgroundColor: theme.bg.val },
           headerTintColor: theme.text.val,
           headerTitleStyle: {
@@ -25,31 +31,24 @@ const Add = () => {
           },
         }}
       />
-      <View
-        backgroundColor='$bg'
-        width='100%'
-        height='100%'
-        paddingHorizontal={10}
-      >
-        {/* New Category */}
-        {!id && (
-          <>
-            <Spacer />
-            <CreateCategory />
-          </>
-        )}
+      <ScrollView>
+        <View
+          backgroundColor='$bg'
+          width='100%'
+          height='100%'
+          paddingHorizontal={10}
+          paddingTop={20}
+          gap={20}
+        >
+          {/* new link */}
+          {!editCategoryId && <CreateLink />}
 
-        <Spacer />
+          {/* New Category */}
+          <CreateCategory />
 
-        {/* new link */}
-        <CreateLink />
-
-        {!!id && (
-          <View flex={1} justifyContent='flex-end'>
-            <SwapToRemove id={id} />
-          </View>
-        )}
-      </View>
+          {!!id && <SwapToRemove id={id} />}
+        </View>
+      </ScrollView>
       <StatusBar style={visibleTheme === 'dark' ? 'light' : 'dark'} />
     </>
   );

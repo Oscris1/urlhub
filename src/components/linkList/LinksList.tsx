@@ -1,4 +1,3 @@
-import { Database } from '@nozbe/watermelondb';
 import { Link } from '../../model/link';
 import { withObservables } from '@nozbe/watermelondb/react';
 import { Q } from '@nozbe/watermelondb';
@@ -13,6 +12,7 @@ import { View, Text } from 'tamagui';
 import { PressableButton } from '../common';
 import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
+import { linksCollection } from '@/model';
 
 const AnimatedFlashList = Animated.createAnimatedComponent(FlashList<Link>);
 
@@ -23,7 +23,6 @@ interface LinkListProps {
 }
 
 interface EnchancedLinkListProps {
-  database: Database;
   selectedCategory: string;
   yPosition: SharedValue<number>;
 }
@@ -80,29 +79,26 @@ const LinksList: React.FC<LinkListProps> = ({
 };
 
 const enhance = withObservables<EnchancedLinkListProps, LinkListProps>(
-  ['database', 'selectedCategory'],
+  ['selectedCategory'],
   //@ts-ignore
-  ({ database, selectedCategory }) => {
+  ({ selectedCategory }) => {
     let query;
 
     if (selectedCategory === 'all') {
       // Pobiera wszystkie linki bez filtrowania
-      query = database.collections
-        .get<Link>('links')
-        .query(Q.sortBy('created_at', Q.desc));
+      query = linksCollection.query(Q.sortBy('created_at', Q.desc));
     } else if (selectedCategory === 'none') {
       // Pobiera linki bez kategorii
-      query = database.collections
-        .get<Link>('links')
-        .query(Q.where('category_id', null), Q.sortBy('created_at', Q.desc));
+      query = linksCollection.query(
+        Q.where('category_id', null),
+        Q.sortBy('created_at', Q.desc)
+      );
     } else {
       // Pobiera linki z określonej kategorii
-      query = database.collections
-        .get<Link>('links')
-        .query(
-          Q.where('category_id', selectedCategory),
-          Q.sortBy('created_at', Q.desc)
-        );
+      query = linksCollection.query(
+        Q.where('category_id', selectedCategory),
+        Q.sortBy('created_at', Q.desc)
+      );
     }
 
     return {
