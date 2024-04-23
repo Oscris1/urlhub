@@ -88,7 +88,7 @@ function RootLayoutNav() {
         resetOnBackground: true,
         onResetShareIntent: () =>
           // used when app going in background and when the reset button is pressed
-          router.replace({
+          router.navigate({
             pathname: '/',
           }),
       }}
