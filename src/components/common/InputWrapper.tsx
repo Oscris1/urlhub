@@ -9,7 +9,7 @@ interface InputWrapperProps {
 const InputWrapper: React.FC<InputWrapperProps> = ({ children, label }) => {
   return (
     <YStack gap={2}>
-      <Text paddingLeft={3} fontSize={12}>
+      <Text color='$text' paddingLeft={3} fontSize={12}>
         {label}
       </Text>
       {children}

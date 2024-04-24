@@ -28,9 +28,6 @@ const CreateLink = () => {
   const resetLinkListSelectedCategory = useGlobalStore(
     (state) => state.resetSelectedCategory
   );
-  const setLinkListSelectedCategory = useGlobalStore(
-    (state) => state.setSelectedCategory
-  );
 
   const prepareEdit = async () => {
     if (id) {
@@ -88,10 +85,6 @@ const CreateLink = () => {
           });
           router.back();
         }
-
-        if (categoryId) {
-          setLinkListSelectedCategory(categoryId);
-        }
       });
 
       Toast.show({
@@ -119,7 +112,7 @@ const CreateLink = () => {
   };
 
   return (
-    <View backgroundColor='$secondary' padding={20} borderRadius={10} gap={5}>
+    <View backgroundColor='$secondary' padding={20} borderRadius={10} gap={8}>
       <View justifyContent='center' alignItems='center'>
         <Text fontSize={18} fontWeight='bold' color='$text'>
           {id ? t('edit') : t('add')} link

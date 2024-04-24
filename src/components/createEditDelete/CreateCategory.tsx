@@ -64,7 +64,7 @@ const CreateCategory = () => {
     endAnimation();
   };
   return (
-    <View backgroundColor='$secondary' padding={20} borderRadius={10} gap={10}>
+    <View backgroundColor='$secondary' padding={20} borderRadius={10} gap={8}>
       <View justifyContent='center' alignItems='center'>
         <Text fontSize={18} fontWeight='bold' color='$text'>
           {editCategoryId ? t('edit_category') : t('add_or_edit_category')}

@@ -77,6 +77,7 @@ export const SelectCategory = ({
         borderColor='$black'
         borderWidth={1}
         width={width}
+        pl={!!add ? 6 : 12}
         iconAfter={
           !categoryName && selectedCategory ? (
             <ActivityIndicator color={primaryColor} />

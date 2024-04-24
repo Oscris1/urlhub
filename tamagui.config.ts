@@ -26,7 +26,7 @@ export const config = createTamagui({
       danger: '#FF6868', //'#F28585',
       dangerStrong: '#FF204E', //'#FF6868',
       gradientAdditional: '#8A88FB', // #4B73FF '#DDE4FF'
-      successToast: '#41B06E', //'rgba(141, 162, 238, 0.8)',
+      successToast: '#2C7865', //'rgba(141, 162, 238, 0.8)',
       errorToast: 'rgba(255, 104, 104, 0.9)',
       disabled: '#B5C0D0',
       disabledText: '#CCD3CA',
