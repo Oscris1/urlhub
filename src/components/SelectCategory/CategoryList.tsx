@@ -10,38 +10,25 @@ import { Q } from '@nozbe/watermelondb';
 interface CategoryListProps {
   categories: Category[];
   add?: boolean;
-  setData: (data: { id: string; name: string }[]) => void;
 }
 
 interface EnchanceCategoryListProps {
   add?: boolean;
-  setData: (data: { id: string; name: string }[]) => void;
 }
 
-const CategoryList: React.FC<CategoryListProps> = ({
-  categories,
-  add,
-  setData,
-}) => {
+const CategoryList: React.FC<CategoryListProps> = ({ categories, add }) => {
   const theme = useTheme();
   const { t } = useTranslation();
-  let data: { id: string; name: string }[];
-  if (add) {
-    data = categories;
-  } else {
-    data = [
-      { id: 'all', name: t('all') },
-      { id: 'none', name: t('unassigned') },
-      ...categories,
-    ];
-  }
-
-  useEffect(() => {
-    setData(data);
-  }, [t('all'), t('unassigned'), categories]);
+  const data = !add
+    ? [
+        { id: 'all', name: t('all') },
+        { id: 'none', name: t('unassigned') },
+        ...categories,
+      ]
+    : categories;
 
   return (
-    <View onLayout={() => setData(data)}>
+    <View>
       {useMemo(
         () =>
           data.map((item, i) => {
@@ -79,5 +66,5 @@ const enhance = withObservables<EnchanceCategoryListProps, CategoryListProps>(
   })
 );
 
-export const EnchancetCategoryList: React.FC<EnchanceCategoryListProps> =
+export const EnhancedCategoryList: React.FC<EnchanceCategoryListProps> =
   enhance(CategoryList);

@@ -3,8 +3,9 @@ import React, { useState, useEffect } from 'react';
 import { Adapt, Select, Sheet, useTheme } from 'tamagui';
 import type { SelectProps, SizeTokens } from 'tamagui';
 import { Entypo } from '@expo/vector-icons';
-import { EnchancetCategoryList } from './CategoryList';
+import { EnhancedCategoryList } from './CategoryList';
 import { useTranslation } from 'react-i18next';
+import { categoriesCollection } from '@/model';
 
 interface CategoriesListProps {
   selectedCategory?: string;
@@ -26,19 +27,33 @@ export const SelectCategory = ({
 }: SelectProps & CategoriesListProps) => {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
-  const [data, setData] = useState<{ id: string; name: string }[]>([]);
   const [categoryName, setCategoryName] = useState('');
   const theme = useTheme();
   const primaryColor = theme.primary.val;
 
-  useEffect(() => {
-    if (selectedCategory && data) {
-      const preparedValue = data.find(({ id }) => id === selectedCategory);
-      if (preparedValue) {
-        setCategoryName(preparedValue.name);
+  const findCategoryName = async () => {
+    if (selectedCategory === 'all') {
+      setCategoryName(t(selectedCategory));
+    } else if (selectedCategory === 'none') {
+      setCategoryName(t('unassigned'));
+    } else if (selectedCategory) {
+      try {
+        const foundCategory = await categoriesCollection.find(selectedCategory);
+        setCategoryName(foundCategory.name);
+      } catch {
+        setSelectedCategory(!!add ? '' : 'all');
       }
     }
-  }, [selectedCategory, data]);
+  };
+
+  useEffect(() => {
+    const subscription = categoriesCollection
+      .query()
+      .observeWithColumns(['name'])
+      .subscribe(findCategoryName);
+
+    return () => subscription.unsubscribe();
+  }, [selectedCategory, t]);
 
   useEffect(() => {
     const backAction = () => {
@@ -127,7 +142,7 @@ export const SelectCategory = ({
               {t('categories')}
             </Select.Label>
 
-            <EnchancetCategoryList add={add} setData={setData} />
+            <EnhancedCategoryList add={add} />
           </Select.Group>
           {/* Native gets an extra icon */}
         </Select.Viewport>
