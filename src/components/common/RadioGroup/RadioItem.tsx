@@ -45,7 +45,7 @@ export const RadioItem: React.FC<RadioItemProps> = ({
 
   return (
     <GestureDetector gesture={tap(item.id)}>
-      <XStack>
+      <XStack px={20} py={3} alignItems='center'>
         <RadioOuter>
           <AnimatedView style={animatedStyle(item.id)} />
         </RadioOuter>
@@ -64,13 +64,13 @@ export const RadioItemDisabled: React.FC<RadioItemProps> = ({
 }) => {
   const theme = useTheme();
   return (
-    <XStack>
+    <XStack px={20} py={3} alignItems='center'>
       <RadioOuter>
         {item.id === sharedSelectedItem.value && (
           <ActivityIndicator color={theme.primary.val} size='small' />
         )}
       </RadioOuter>
-      <Text fontSize={12} color='$text'>
+      <Text fontSize={13} color='$text'>
         {item.displayName}
       </Text>
       <Spacer />
