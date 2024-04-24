@@ -2,11 +2,14 @@ import React from 'react';
 import { ScrollView, View, useTheme } from 'tamagui';
 import CreateCategory from '@/components/createEditDelete/CreateCategory';
 import CreateLink from '@/components/createEditDelete/CreateLink';
-import { Stack, useLocalSearchParams } from 'expo-router';
+import { Stack, router, useLocalSearchParams } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import SwapToRemove from '@/components/createEditDelete/SwapToRemove';
 import { useTranslation } from 'react-i18next';
 import { useGlobalStore } from '@/stores/globalStore';
+import { useDatabase } from '@nozbe/watermelondb/react';
+import { categoriesCollection, linksCollection } from '@/model';
+import Toast from 'react-native-toast-message';
 
 const Add = () => {
   const visibleTheme = useGlobalStore((state) => state.visibleTheme);
@@ -14,6 +17,31 @@ const Add = () => {
     useLocalSearchParams(); // string | string[] by default
   const { t } = useTranslation();
   const theme = useTheme();
+  const database = useDatabase();
+
+  const showDeleteSuccessToast = () =>
+    Toast.show({
+      type: 'success',
+      text1: t('deleted'),
+      visibilityTime: 1500,
+    });
+
+  const handleRemoveLink = async () => {
+    await database.write(async () => {
+      const link = await linksCollection.find(id);
+      await link.destroyPermanently();
+      showDeleteSuccessToast();
+      router.back();
+    });
+  };
+
+  const handleRemoveCategory = async () => {
+    if (!editCategoryId) return;
+    const category = await categoriesCollection.find(editCategoryId);
+    await category.deleteCategory();
+    showDeleteSuccessToast();
+    router.back();
+  };
 
   return (
     <>
@@ -40,13 +68,19 @@ const Add = () => {
           paddingTop={20}
           gap={20}
         >
-          {/* new link */}
+          {/* New link */}
           {!editCategoryId && <CreateLink />}
 
           {/* New Category */}
           <CreateCategory />
 
-          {!!id && <SwapToRemove id={id} />}
+          {/* Remove link */}
+          {!!id && <SwapToRemove handleRemove={handleRemoveLink} />}
+
+          {/* Remove category */}
+          {!!editCategoryId && (
+            <SwapToRemove handleRemove={handleRemoveCategory} />
+          )}
         </View>
       </ScrollView>
       <StatusBar style={visibleTheme === 'dark' ? 'light' : 'dark'} />

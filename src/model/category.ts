@@ -1,6 +1,6 @@
 import { Model, Query } from '@nozbe/watermelondb';
 import { Associations } from '@nozbe/watermelondb/Model';
-import { text, children, date } from '@nozbe/watermelondb/decorators';
+import { text, children, date, writer } from '@nozbe/watermelondb/decorators';
 import { Link } from './link';
 
 export default class Category extends Model {
@@ -15,4 +15,17 @@ export default class Category extends Model {
   @date('created_at') createdAt: number;
   // @ts-ignore
   @children('links') links: Query<Link>;
+
+  // @ts-ignore
+  @writer async deleteCategory() {
+    const relatedLinks = await this.links.fetch();
+    const updates = relatedLinks.map((link) =>
+      link.prepareUpdate(() => {
+        link.category.id = null;
+      })
+    );
+    const deleteOperation = this.prepareDestroyPermanently();
+
+    await this.batch(...updates, deleteOperation);
+  }
 }

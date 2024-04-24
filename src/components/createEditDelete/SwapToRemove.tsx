@@ -9,45 +9,27 @@ import {
   withSpring,
 } from 'react-native-reanimated';
 import { ReText } from 'react-native-redash';
-import { useDatabase } from '@nozbe/watermelondb/react';
-import { router } from 'expo-router';
 import { StyleSheet } from 'react-native';
-import Toast from 'react-native-toast-message';
 import { useTranslation } from 'react-i18next';
 import { AnimatedView } from '@/components/common';
 import { Dimensions } from 'react-native';
-import { linksCollection } from '@/model';
 
 interface SwapToRemoveProps {
-  id: string;
+  handleRemove: () => void;
 }
 
 const { width } = Dimensions.get('window');
 const TRIGGER_DELETE_MOMENT = width * 0.2;
 const SWIPABLE_CLAMP_LEFT_VALUE = -(width / 2);
 
-const SwapToRemove: React.FC<SwapToRemoveProps> = ({ id }) => {
+const SwapToRemove: React.FC<SwapToRemoveProps> = ({ handleRemove }) => {
   const { t } = useTranslation();
-  const database = useDatabase();
   const scrollX = useSharedValue(0);
   const release = useSharedValue(false);
   const slide = t('slide_to_delete');
   const drop = t('drop_to_delete');
   const text = useSharedValue(slide);
   const theme = useTheme();
-
-  const handleRemove = async () => {
-    await database.write(async () => {
-      const link = await linksCollection.find(id);
-      await link.destroyPermanently();
-      Toast.show({
-        type: 'success',
-        text1: t('deleted'),
-        visibilityTime: 1500,
-      });
-      router.back();
-    });
-  };
 
   const pan = Gesture.Pan()
     .onStart(() => {
