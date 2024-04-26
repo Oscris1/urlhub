@@ -15,7 +15,7 @@ const adapter = new SQLiteAdapter({
   // dbName: 'myapp',
   // (recommended option, should work flawlessly out of the box on iOS. On Android,
   // additional installation steps have to be taken - disable if you run into issues...)
-  jsi: Platform.OS === 'ios',
+  jsi: true,
   // (optional, but you should implement this method)
   onSetUpError: (error) => {
     console.log(error);
