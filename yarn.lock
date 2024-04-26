@@ -7464,9 +7464,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expo-share-intent@npm:^1.5.0":
-  version: 1.5.0
-  resolution: "expo-share-intent@npm:1.5.0"
+"expo-share-intent@npm:^1.5.1":
+  version: 1.5.1
+  resolution: "expo-share-intent@npm:1.5.1"
   dependencies:
     "@expo/config-plugins": "npm:~7.9.1"
     expo-constants: "npm:~15.4.6"
@@ -7477,7 +7477,7 @@ __metadata:
     expo-linking: ">=6.2.2"
     react: "*"
     react-native: "*"
-  checksum: 434d8342ae6aab3168ac756ebe6ef6355fcccb51d0a1bd8374b2b955e45084410d2cce5fc8febe7ac41aef3a73e6e5e3cef7e49d6282c7f4836c2b72bd3d5578
+  checksum: 6bb9ef7c0ee6bd6f431d07c39403049699b8463c5f56ddd1c70d5e19eb2059e1b6ce883448f39bb838c5f5892ddc5aa13601ee2c8b09745988e63f929fcc1a8d
   languageName: node
   linkType: hard
 
@@ -13124,7 +13124,7 @@ __metadata:
     expo-linking: "npm:~6.2.1"
     expo-localization: "npm:~14.8.4"
     expo-router: "npm:~3.4.8"
-    expo-share-intent: "npm:^1.5.0"
+    expo-share-intent: "npm:^1.5.1"
     expo-splash-screen: "npm:~0.26.4"
     expo-status-bar: "npm:~1.11.1"
     expo-system-ui: "npm:~2.9.4"

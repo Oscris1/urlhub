@@ -34,7 +34,7 @@
     "expo-linking": "~6.2.1",
     "expo-localization": "~14.8.4",
     "expo-router": "~3.4.8",
-    "expo-share-intent": "^1.5.0",
+    "expo-share-intent": "^1.5.1",
     "expo-splash-screen": "~0.26.4",
     "expo-status-bar": "~1.11.1",
     "expo-system-ui": "~2.9.4",
