@@ -7,8 +7,8 @@ import {
   useSharedValue,
   withSequence,
   withTiming,
+  runOnJS,
 } from 'react-native-reanimated';
-import { ActivityIndicator } from 'react-native';
 import { useGlobalStore } from '@/stores/globalStore';
 import { AnimatedView } from '../AnimatedComponents';
 import { RadioOuter } from '../StyledComponents';
@@ -17,6 +17,8 @@ import { RadioItemProps } from './types';
 export const RadioItem: React.FC<RadioItemProps> = ({
   item,
   sharedSelectedItem,
+  sharedLoading,
+  onSave,
 }) => {
   const fillingSize = useSharedValue(16);
   const theme = useTheme();
@@ -36,10 +38,12 @@ export const RadioItem: React.FC<RadioItemProps> = ({
     Gesture.Tap()
       .onBegin(() => {})
       .onStart((event) => {
+        if (!!sharedLoading.value) return;
+        runOnJS(onSave)();
         sharedSelectedItem.value = id;
         fillingSize.value = withSequence(
           withTiming(0, { duration: 0 }),
-          withTiming(16, { duration: 1500, easing: Easing.bounce })
+          withTiming(16, { duration: 800, easing: Easing.bounce })
         );
       });
 
@@ -55,25 +59,5 @@ export const RadioItem: React.FC<RadioItemProps> = ({
         <Spacer />
       </XStack>
     </GestureDetector>
-  );
-};
-
-export const RadioItemDisabled: React.FC<RadioItemProps> = ({
-  item,
-  sharedSelectedItem,
-}) => {
-  const theme = useTheme();
-  return (
-    <XStack px={20} py={3} alignItems='center'>
-      <RadioOuter>
-        {item.id === sharedSelectedItem.value && (
-          <ActivityIndicator color={theme.primary.val} size='small' />
-        )}
-      </RadioOuter>
-      <Text fontSize={13} color='$text'>
-        {item.displayName}
-      </Text>
-      <Spacer />
-    </XStack>
   );
 };

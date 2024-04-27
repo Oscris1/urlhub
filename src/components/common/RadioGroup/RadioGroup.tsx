@@ -1,13 +1,12 @@
 import React from 'react';
 import { View, Text, YStack } from 'tamagui';
-import PressableButton from '../PressableButton';
-import { RadioItem, RadioItemDisabled } from './RadioItem';
+import { RadioItem } from './RadioItem';
 import { RadioGroupProps } from './types';
 
 export const RadioGroup: React.FC<RadioGroupProps> = ({
   title,
   options,
-  isLoading,
+  sharedLoading,
   sharedSelectedItem,
   onSave,
 }) => {
@@ -19,23 +18,15 @@ export const RadioGroup: React.FC<RadioGroupProps> = ({
       <YStack>
         {options.map((option) => (
           <View key={option.id}>
-            {!isLoading ? (
-              <RadioItem
-                item={option}
-                sharedSelectedItem={sharedSelectedItem}
-              />
-            ) : (
-              <RadioItemDisabled
-                item={option}
-                sharedSelectedItem={sharedSelectedItem}
-              />
-            )}
+            <RadioItem
+              item={option}
+              sharedSelectedItem={sharedSelectedItem}
+              onSave={onSave}
+              sharedLoading={sharedLoading}
+            />
           </View>
         ))}
       </YStack>
-      <View px={20}>
-        <PressableButton isLoading={isLoading} onPress={onSave} />
-      </View>
     </View>
   );
 };

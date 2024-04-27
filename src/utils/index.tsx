@@ -5,3 +5,6 @@ export const shortenLink = (link: string, maxLength = 60) => {
     return link;
   }
 };
+
+export const wait = async (ms: number) =>
+  new Promise((resolve) => setTimeout(resolve, ms));

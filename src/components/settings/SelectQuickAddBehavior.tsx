@@ -1,10 +1,11 @@
-import React, { useState, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import Toast from 'react-native-toast-message';
 import { useSharedValue } from 'react-native-reanimated';
 import { useGlobalStore } from '@/stores/globalStore';
 import { RadioGroup } from '../common/RadioGroup/RadioGroup';
 import { useFocusEffect } from 'expo-router';
+import { wait } from '@/utils';
 
 const SelectQuickAddBehavior = () => {
   const { t } = useTranslation();
@@ -12,8 +13,8 @@ const SelectQuickAddBehavior = () => {
     (state) => state.changeFastAddBehavior
   );
   const fastAddBehavior = useGlobalStore((state) => state.fastAddBehavior);
+  const sharedLoading = useSharedValue<boolean>(false);
 
-  const [isLoading, setIsLoading] = useState(false);
   const sharedSelectedBehavior = useSharedValue<
     'save' | 'ask' | 'ask_and_open'
   >(fastAddBehavior);
@@ -24,11 +25,8 @@ const SelectQuickAddBehavior = () => {
     { id: 'ask_and_open', displayName: t('save_and_edit') },
   ];
 
-  const wait = async (ms: number) =>
-    new Promise((resolve) => setTimeout(resolve, ms));
-
   const changeTheme = async () => {
-    setIsLoading(true);
+    sharedLoading.value = true;
     await wait(16);
     changeFastAddBehavior(sharedSelectedBehavior.value);
 
@@ -37,7 +35,7 @@ const SelectQuickAddBehavior = () => {
       text1: t('quick_action_saved'),
       visibilityTime: 1500,
     });
-    setIsLoading(false);
+    sharedLoading.value = false;
   };
 
   useFocusEffect(
@@ -50,9 +48,9 @@ const SelectQuickAddBehavior = () => {
     <RadioGroup
       title={t('choose_app_behavior')}
       options={behaviors}
-      isLoading={isLoading}
       sharedSelectedItem={sharedSelectedBehavior}
       onSave={changeTheme}
+      sharedLoading={sharedLoading}
     />
   );
 };
