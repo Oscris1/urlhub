@@ -57,6 +57,7 @@ const Add = () => {
           headerTitleStyle: {
             fontWeight: 'bold',
           },
+          headerBackTitleVisible: false,
         }}
       />
       <ScrollView>

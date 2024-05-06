@@ -87,6 +87,7 @@ const CreateCategory = () => {
           />
           <View width='18%'>
             <SaveButton
+              update={!!editCategoryId}
               onPress={createOrEditCategory}
               disabled={!categoryName}
             />

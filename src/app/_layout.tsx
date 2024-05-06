@@ -97,7 +97,13 @@ function RootLayoutNav() {
           <DatabaseProvider database={database}>
             <GestureHandlerRootView style={{ flex: 1 }}>
               <Stack>
-                <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
+                <Stack.Screen
+                  name='(tabs)'
+                  options={{
+                    headerShown: false,
+                    headerBackTitleVisible: false,
+                  }}
+                />
               </Stack>
               <Toast config={toastConfig} position='bottom' bottomOffset={70} />
             </GestureHandlerRootView>

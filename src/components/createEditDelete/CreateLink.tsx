@@ -174,7 +174,7 @@ const CreateLink = () => {
       </InputWrapper>
 
       <View pt={10}>
-        <SaveButton onPress={createOrEditLink} disabled={!url} />
+        <SaveButton onPress={createOrEditLink} disabled={!url} update={!!id} />
       </View>
     </View>
   );

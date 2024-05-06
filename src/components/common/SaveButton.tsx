@@ -14,10 +14,15 @@ import { MaterialIcons } from '@expo/vector-icons';
 
 interface SaveButtonButtonProps {
   onPress: (animation: () => void, endAnimation: () => void) => Promise<void>;
+  update?: boolean;
   disabled?: boolean;
 }
 
-const SaveButton: React.FC<SaveButtonButtonProps> = ({ onPress, disabled }) => {
+const SaveButton: React.FC<SaveButtonButtonProps> = ({
+  onPress,
+  disabled,
+  update = false,
+}) => {
   const theme = useTheme();
   const [isLoading, setIsLoading] = useState(false);
   const isActive = useSharedValue(false);
@@ -100,7 +105,7 @@ const SaveButton: React.FC<SaveButtonButtonProps> = ({ onPress, disabled }) => {
         ) : (
           <AnimatedView style={rIconStyle}>
             <MaterialIcons
-              name='add'
+              name={update ? 'update' : 'add'}
               size={30}
               color={disabled ? theme.disabledText.val : theme.white.val}
             />

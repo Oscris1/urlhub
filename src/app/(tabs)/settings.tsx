@@ -7,12 +7,13 @@ import SelectTheme from '@/components/settings/SelectTheme';
 import { useGlobalStore } from '@/stores/globalStore';
 import SelectQuickAddBehavior from '@/components/settings/SelectQuickAddBehavior';
 import { StaticHeader } from '@/components/common';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const MARGIN_TOP_SETTINGS_VIEW = -20;
 
 const Settings = () => {
   const visibleTheme = useGlobalStore((state) => state.visibleTheme);
-
+  const insets = useSafeAreaInsets();
   return (
     <View backgroundColor='$bg' width='100%' height='100%'>
       <Stack.Screen
@@ -20,7 +21,10 @@ const Settings = () => {
           headerShown: false,
         }}
       />
-      <StaticHeader safePaddingBottom={-MARGIN_TOP_SETTINGS_VIEW} />
+      <StaticHeader
+        safePaddingBottom={-MARGIN_TOP_SETTINGS_VIEW}
+        height={76 + insets.top}
+      />
       <View
         borderTopStartRadius={25}
         borderTopEndRadius={25}

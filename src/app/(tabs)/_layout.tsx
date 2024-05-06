@@ -111,7 +111,6 @@ export default function TabLayout() {
           },
         })}
         options={{
-          title: 'Linki',
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
               name={`home-${focused ? 'sharp' : 'outline'}`}
@@ -155,7 +154,6 @@ export default function TabLayout() {
         options={{
           tabBarBadge: '+',
           tabBarBadgeStyle: { backgroundColor: theme.primary.val },
-          title: '',
           tabBarIcon: () => (
             <MaterialCommunityIcons
               name='lightning-bolt'
@@ -169,7 +167,6 @@ export default function TabLayout() {
       <Tabs.Screen
         name='settings'
         options={{
-          title: 'Settings',
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
               name={`settings-${focused ? 'sharp' : 'outline'}`}
